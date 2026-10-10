@@ -1,5 +1,6 @@
 import sys
 from PySide6.QtCore import Qt
+from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
 from PySide6.QtWidgets import (
     QMainWindow,
     QFrame,
@@ -16,57 +17,41 @@ from PySide6.QtWidgets import (
 from calculator import CylFormula
 
 
-class Cylinder(QFrame):
+class Cylinder(SecondPanel):
     def __init__(self):
         super().__init__()
 
-        # Panel design
-        self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)
-        self.setObjectName("cylinderPanel")
-        self.setStyleSheet("""
-            #cylinderPanel {
-                border: 1px solid #2A2A2A;
-                border-radius: 6px;
-                background-color: #ffffff
-            }
-        """)
-
-
         # Input Boxes
-        self.boreInput = QLineEdit()
+        self.boreInput = DarkInput()
         self.boreInput.setPlaceholderText("Bore Size (in)")
-        self.boreInput.setStyleSheet("""
-            QLineEdit {
-                qproperty-alignment: AlignCenter;
-            }
-        """)
 
 
-
-        self.rodInput = QLineEdit()
+        self.rodInput = DarkInput()
         self.rodInput.setPlaceholderText("Rod Size (in)")
 
-        self.pressureInput = QLineEdit()
+        self.pressureInput = DarkInput()
         self.pressureInput.setPlaceholderText("Pressure (psi)")
 
         # Labels
         self.title = QLabel("Cylinder")
         self.title.setAlignment(Qt.AlignCenter)
-        self.title.setStyleSheet("""
-            QLabel {
-                font-size: 20px;
-                font-weight: bold;
-                padding: 6px;
-                }
-        """)
+        self.title.setStyleSheet(
+            """
+            font-size: 20px;
+            font-weight: bold;
+            padding: 6px;
+            """
+        )
 
         self.output = QLabel("Push Force: 0 \nPull Force: 0 ")
         self.output.setAlignment(Qt.AlignCenter)
+        self.output.setMinimumHeight(40)
 
         # Buttons
-        self.calcButton = QPushButton("Calculate")
-        self.resetButton = QPushButton("Reset")
+        self.calcButton = DarkButton()
+        self.calcButton.setText("Calculate")
+        self.resetButton = DarkButton()
+        self.resetButton.setText("Reset")
 
 
         # Button layout
@@ -94,6 +79,20 @@ class Cylinder(QFrame):
             rod = float(self.rodInput.text())
             pressure = float(self.pressureInput.text())
 
+            if rod >= bore:
+                self.output.setText(
+                    "Invalid, rod cannot be\n"
+                    "the same or larger than bore"
+                )
+                return
+
+            if rod < 0 or bore < 0 or pressure < 0:
+                self.output.setText(
+                    "Invalid, inputs must be\n"
+                    "positive numbers"
+                )
+                return
+
             calc = CylFormula(
                 bore=bore,
                 rod=rod,
@@ -109,10 +108,15 @@ class Cylinder(QFrame):
             )
             
         except ValueError:
-            self.output.setText("error")
+            self.output.setText("Error.")
 
     def reset(self):
         self.output.setText("Push Force: 0 \nPull Force: 0")
+        self.boreInput.clear()
+        self.rodInput.clear()
+        self.pressureInput.clear()
+
+
 
 
 

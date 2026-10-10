@@ -1,5 +1,6 @@
 import sys
 from PySide6.QtCore import Qt
+from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
 from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
@@ -13,7 +14,7 @@ from PySide6.QtWidgets import (
     QFrame
 )
 
-class Pump(QFrame):
+class Pump(SecondPanel):
     def __init__(self):
         super().__init__()
 
@@ -22,13 +23,13 @@ class Pump(QFrame):
         self.setFrameShadow(QFrame.Raised)        
 
         # Input Boxes
-        self.displacement_input = QLineEdit()
+        self.displacement_input = DarkInput()
         self.displacement_input.setPlaceholderText("Displacement(ci)")
 
-        self.speed_input = QLineEdit()
+        self.speed_input = DarkInput()
         self.speed_input.setPlaceholderText("Speed (rpm)")
 
-        self.pressure_input = QLineEdit()
+        self.pressure_input = DarkInput()
         self.pressure_input.setPlaceholderText("Pressure (psi)")
 
         # Labels
@@ -46,8 +47,10 @@ class Pump(QFrame):
 
 
         # Buttons
-        self.calc_button = QPushButton("Calculate")
-        self.reset_button = QPushButton("Reset")
+        self.calc_button = DarkButton()
+        self.calc_button.setText("Calculate")
+        self.reset_button = DarkButton()
+        self.reset_button.setText("Reset")
 
         # Button layout
         button_layout = QGridLayout()

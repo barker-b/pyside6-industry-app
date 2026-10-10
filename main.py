@@ -1,8 +1,9 @@
 import sys
-from cylinder import Cylinder
+from main_panels.hydraulic_panel import HydraulicsPanel
 from motors import Motor
 from pump import Pump
 from PySide6.QtCore import Qt
+from settings.themes import THEMES
 from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
@@ -15,6 +16,13 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QToolBar,
 )
+from PySide6.QtGui import QAction
+
+class AppState:
+    theme = "light"
+    language = "en"
+    units = "sae"
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -23,40 +31,38 @@ class MainWindow(QMainWindow):
         self.resize(800, 800)
 
         # Tool bar
-        tool_bar = QToolBar()
-        self.addToolBar(tool_bar)
+        self.tool_bar = QToolBar("Tools")
+        self.tool_bar.setMovable(False)
+        self.addToolBar(self.tool_bar)
+
+        self.toggleThemeAction = QAction("Dark Theme", self)
+        self.toggleThemeAction.triggered.connect(self.toggleTheme)
+        self.tool_bar.addAction(self.toggleThemeAction)
+
+        self.toggleUnitsAction = QAction("Metric", self)
+        self.toggleUnitsAction.triggered.connect(self.toggleUnits)
+        self.tool_bar.addAction(self.toggleUnitsAction)
+
+        self.toggleLanguageAction = QAction("Spanish", self)
+        self.toggleLanguageAction.triggered.connect(self.toggleLanguage)
+        self.tool_bar.addAction(self.toggleLanguageAction)
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
         # Main Layout
-        layout = QGridLayout()
-        central_widget.setLayout(layout)
+        mainLayout = QGridLayout()
+        central_widget.setLayout(mainLayout)
 
 
         # Placeholders for now
-        electricLabel = QLabel("Coming Soon!")
-        fluidsLabel = QLabel("Coming Soon!")
-        materialsLabel = QLabel("Coming Soon!")
+        hydraulic_Panel = HydraulicsPanel()
+        electricLabel = QLabel("Electrical Coming Soon!")
+        fluidsLabel = QLabel("Fluids Coming Soon!")
+        materialsLabel = QLabel("Materials Coming Soon!")
         extraPanel = QLabel("Coming soon!")
         extraPanel.setAlignment(Qt.AlignCenter)
     
-        # hydraulic imports
-        cylPanel = Cylinder()
-        motorPanel = Motor()
-        pumpPanel = Pump()
-
-
-        # top level panels
-        hydraulicsPanel = QGridLayout()
-        hydraulicsPanel.addWidget(cylPanel, 0, 0)
-        hydraulicsPanel.addWidget(motorPanel, 0 , 1)
-        hydraulicsPanel.addWidget(pumpPanel, 1, 0)
-        hydraulicsPanel.addWidget(extraPanel, 1, 1)
-
-
-        hydraulicsPanel.setColumnStretch(1, 1)
-
         electricPanel = QGridLayout()
         electricPanel.addWidget(electricLabel)
         electricLabel.setAlignment(Qt.AlignCenter)
@@ -69,24 +75,39 @@ class MainWindow(QMainWindow):
         materialsPanel.addWidget(materialsLabel)
         materialsLabel.setAlignment(Qt.AlignCenter)
 
-        layout.addLayout(hydraulicsPanel, 0, 0)
-        layout.addLayout(electricPanel, 0, 1)
-        layout.addLayout(fluidsPanel, 1, 0)
-        layout.addLayout(materialsPanel, 1, 1)
-
-        layout.setRowStretch(0, 0)
-        layout.setRowStretch(1, 1)
-        layout.setColumnStretch(0, 1)
-        layout.setColumnStretch(1, 1)
+        mainLayout.addWidget(hydraulic_Panel, 0, 0)
+        mainLayout.addLayout(electricPanel, 0, 1)
+        mainLayout.addLayout(fluidsPanel, 1, 0)
+        mainLayout.addLayout(materialsPanel, 1, 1)
 
 
-        
-        
+        mainLayout.setRowStretch(1, 1)
+        mainLayout.setColumnStretch(0, 1)
+        mainLayout.setColumnStretch(1, 1)
+
+    def toggleTheme(self):
+        if AppState.theme == "light":
+            AppState.theme = "dark"
+            QApplication.instance().setStyleSheet(THEMES[AppState.theme])
+            self.toggleThemeAction.setText("Dark Theme")
+
+
+        else:
+            AppState.theme = "light"
+            QApplication.instance().setStyleSheet(THEMES[AppState.theme])
+            self.toggleThemeAction.setText("Light Theme")
+
+    def toggleUnits(self):
+        pass
+
+    def toggleLanguage(self):
+        pass
 
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
+    app.setStyleSheet(THEMES[AppState.theme])
     window.show()
     sys.exit(app.exec())
