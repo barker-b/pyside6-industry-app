@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
 from cylinder import Cylinder
-from motors import Motor
+from motor import Motor
 from pump import Pump
 from widgets.custom_widgets import BasePanel
 from PySide6.QtWidgets import (

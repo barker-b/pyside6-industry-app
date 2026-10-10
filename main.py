@@ -1,6 +1,6 @@
 import sys
 from main_panels.hydraulic_panel import HydraulicsPanel
-from motors import Motor
+from motor import Motor
 from pump import Pump
 from PySide6.QtCore import Qt
 from settings.themes import THEMES
