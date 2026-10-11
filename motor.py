@@ -37,9 +37,9 @@ class Motor(SecondPanel):
 
         # Labels
         self.title = QLabel("Motor")
-        self.out_put = QLabel("Motor Torque: 0\n Motor Speed: 0")
-        self.out_put.setAlignment(Qt.AlignCenter)
-        self.out_put.setMinimumHeight(40)
+        self.output = QLabel("Motor Torque: 0\n Motor Speed: 0")
+        self.output.setAlignment(Qt.AlignCenter)
+        self.output.setMinimumHeight(40)
 
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet("""
@@ -53,35 +53,42 @@ class Motor(SecondPanel):
 
         # Buttons
 
-        self.calc_button = DarkButton()
-        self.calc_button.setText("Calculate")
-        self.reset_button = DarkButton()
-        self.reset_button.setText("Reset")
+        self.calcButton = DarkButton()
+        self.calcButton.setText("Calculate")
+        self.resetButton = DarkButton()
+        self.resetButton.setText("Reset")
 
         #Button Layout
-        button_layout = QGridLayout()
-        button_layout.addWidget(self.calc_button, 0, 0)
-        button_layout.addWidget(self.reset_button, 0, 1)
+        buttonLayout = QGridLayout()
+        buttonLayout.addWidget(self.calcButton, 0, 0)
+        buttonLayout.addWidget(self.resetButton, 0, 1)
 
         # Main screen layout
-        main_layout = QVBoxLayout()
-        main_layout.addWidget(self.title)
-        main_layout.addWidget(self.displacementInput)
-        main_layout.addWidget(self.flowInput)
-        main_layout.addWidget(self.pressureInput)
-        main_layout.addWidget(self.out_put)
-        main_layout.addLayout(button_layout)
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(self.title)
+        mainLayout.addWidget(self.displacementInput)
+        mainLayout.addWidget(self.flowInput)
+        mainLayout.addWidget(self.pressureInput)
+        mainLayout.addWidget(self.output)
+        mainLayout.addLayout(buttonLayout)
 
-        self.setLayout(main_layout)
+        self.setLayout(mainLayout)
 
-        self.calc_button.clicked.connect(self.calculate)
-        self.reset_button.clicked.connect(self.reset)
+        self.calcButton.clicked.connect(self.calculate)
+        self.resetButton.clicked.connect(self.reset)
 
     def calculate(self):
         try:
             displacement = float(self.displacementInput.text())
             flow = float(self.flowInput.text())
             pressure = float(self.pressureInput.text())
+
+            if displacement < 0 or flow < 0 or pressure < 0:
+                self.output.setText(
+                    "Invalid, inputs must be\n"
+                    "positive numbers"
+                )
+                return
 
             calc = MotorFormula(
                 displacement=displacement,
@@ -92,17 +99,17 @@ class Motor(SecondPanel):
             torque = calc.motor_torque()
             motor_speed = calc.motor_speed()
 
-            self.out_put.setText(
+            self.output.setText(
                 f"Motor Torque: {torque:,.0f} ft-lbs.\n"
                 f"Motor Speed: {motor_speed:,.0f} RPM."
             )
 
         except ValueError:
-            self.out_put.setText("Error.")
+            self.output.setText("Error.")
 
 
     def reset(self):
-        self.out_put.setText("Motor Torque: 0\n Motor Speed: 0")
+        self.output.setText("Motor Torque: 0\n Motor Speed: 0")
         self.displacementInput.clear()
         self.flowInput.clear()
         self.pressureInput.clear()

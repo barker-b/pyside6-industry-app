@@ -54,10 +54,11 @@ class MainWindow(QMainWindow):
         mainLayout = QGridLayout()
         central_widget.setLayout(mainLayout)
 
+        # Panels
+        hydraulic_Panel = HydraulicsPanel()
 
         # Placeholders for now
-        hydraulic_Panel = HydraulicsPanel()
-        electricLabel = QLabel("Electrical Coming Soon!")
+        electricLabel = QLabel("Electrical Coming Next!")
         fluidsLabel = QLabel("Fluids Coming Soon!")
         materialsLabel = QLabel("Materials Coming Soon!")
         extraPanel = QLabel("Coming soon!")
