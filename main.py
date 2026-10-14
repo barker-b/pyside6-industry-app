@@ -1,9 +1,13 @@
 import sys
 from main_panels.hydraulic_panel import HydraulicsPanel
+from main_panels.electrical_panel import ElectricPanel
+from main_panels.test_panel import TestPanel
+from settings.app_state import AppState
 from motor import Motor
 from pump import Pump
 from PySide6.QtCore import Qt
 from settings.themes import THEMES
+from settings.languages import LANGUAGE
 from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
@@ -17,11 +21,6 @@ from PySide6.QtWidgets import (
     QToolBar,
 )
 from PySide6.QtGui import QAction
-
-class AppState:
-    theme = "light"
-    language = "en"
-    units = "sae"
 
 
 class MainWindow(QMainWindow):
@@ -56,6 +55,9 @@ class MainWindow(QMainWindow):
 
         # Panels
         hydraulic_Panel = HydraulicsPanel()
+        electric_Panel = ElectricPanel()
+        self.test_panel_left = TestPanel()
+        test_panel_right = TestPanel()
 
         # Placeholders for now
         electricLabel = QLabel("Electrical Coming Next!")
@@ -77,9 +79,9 @@ class MainWindow(QMainWindow):
         materialsLabel.setAlignment(Qt.AlignCenter)
 
         mainLayout.addWidget(hydraulic_Panel, 0, 0)
-        mainLayout.addLayout(electricPanel, 0, 1)
-        mainLayout.addLayout(fluidsPanel, 1, 0)
-        mainLayout.addLayout(materialsPanel, 1, 1)
+        mainLayout.addWidget(electric_Panel, 0, 1)
+        mainLayout.addWidget(self.test_panel_left, 1, 0)
+        mainLayout.addWidget(test_panel_right, 1, 1)
 
 
         mainLayout.setRowStretch(1, 1)
@@ -90,19 +92,30 @@ class MainWindow(QMainWindow):
         if AppState.theme == "light":
             AppState.theme = "dark"
             QApplication.instance().setStyleSheet(THEMES[AppState.theme])
-            self.toggleThemeAction.setText("Dark Theme")
+            self.toggleThemeAction.setText("Light Theme")
 
 
         else:
             AppState.theme = "light"
             QApplication.instance().setStyleSheet(THEMES[AppState.theme])
-            self.toggleThemeAction.setText("Light Theme")
+            self.toggleThemeAction.setText("Dark Theme")
 
     def toggleUnits(self):
         pass
 
     def toggleLanguage(self):
-        pass
+        if AppState.language == "eng":
+            AppState.language = "esp"
+            self.toggleLanguageAction.setText("english")
+
+
+        else:
+            AppState.language = "eng"
+            self.toggleLanguageAction.setText("spanish")
+
+        self.test_panel_left.updateLanguage()
+
+        print(AppState.language)
 
 
 
