@@ -1,4 +1,4 @@
 class AppState:
     theme = "light"
-    language = "eng"
+    language = "en"
     units = "sae"

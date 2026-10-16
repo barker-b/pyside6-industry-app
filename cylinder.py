@@ -21,6 +21,7 @@ class Cylinder(SecondPanel):
     def __init__(self):
         super().__init__()
 
+
         # Input Boxes
         self.boreInput = DarkInput()
         self.boreInput.setPlaceholderText("Bore Size (in)")
@@ -33,7 +34,7 @@ class Cylinder(SecondPanel):
         self.pressureInput.setPlaceholderText("Pressure (psi)")
 
         # Labels
-        self.title = QLabel("Cylinder")
+        self.title = QLabel("Hydraulics")
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet(
             """
@@ -115,6 +116,10 @@ class Cylinder(SecondPanel):
         self.boreInput.clear()
         self.rodInput.clear()
         self.pressureInput.clear()
+
+
+
+
 
 
 

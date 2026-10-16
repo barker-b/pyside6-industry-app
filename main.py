@@ -7,7 +7,7 @@ from motor import Motor
 from pump import Pump
 from PySide6.QtCore import Qt
 from settings.themes import THEMES
-from settings.languages import LANGUAGE
+from settings.languages import lang_manager
 from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
@@ -45,6 +45,7 @@ class MainWindow(QMainWindow):
         self.toggleLanguageAction = QAction("Spanish", self)
         self.toggleLanguageAction.triggered.connect(self.toggleLanguage)
         self.tool_bar.addAction(self.toggleLanguageAction)
+
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -104,17 +105,21 @@ class MainWindow(QMainWindow):
         pass
 
     def toggleLanguage(self):
-        if AppState.language == "eng":
-            AppState.language = "esp"
-            self.toggleLanguageAction.setText("english")
+        if AppState.language == "en":
+            AppState.language = "es"
 
+            lang_manager.set_language('es')
+
+            self.toggleLanguageAction.setText("English")
 
         else:
-            AppState.language = "eng"
-            self.toggleLanguageAction.setText("spanish")
+            AppState.language = "en"
 
-        self.test_panel_left.updateLanguage()
+            lang_manager.set_language('en')
 
+            self.toggleLanguageAction.setText("Spanish")
+
+            
         print(AppState.language)
 
 

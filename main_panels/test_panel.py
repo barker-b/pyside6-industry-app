@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import BasePanel
 from settings.app_state import AppState
-from settings.languages import LANGUAGE
+from settings.languages import lang_manager
 from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
@@ -16,19 +16,29 @@ from PySide6.QtWidgets import (
     QFrame,
 )
 
+
+
 class TestPanel(BasePanel):
     def __init__(self):
         super().__init__()
 
         testPanel = QGridLayout()
 
-        self.test = QLabel(LANGUAGE[AppState.language]['greeting'])
+        self.test = QLabel('greeting')
         self.test.setAlignment(Qt.AlignCenter)
 
         testPanel.addWidget(self.test)
 
         self.setLayout(testPanel)
 
+        lang_manager.language_changed.connect(
+            self.updateLanguage
+        )
+
+
+
     def updateLanguage(self):
-        self.test.setText(LANGUAGE[AppState.language]['greeting'])
+        self.test.setText(
+            lang_manager.get_text('greeting')
+        )
         
