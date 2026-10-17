@@ -26,20 +26,20 @@ class ElectricPanel(BasePanel):
 
 
         electricPanel = QGridLayout()
-        electricTitle = QLabel("Electrical")
-        electricTitle.setAlignment(Qt.AlignCenter)
-        electricTitle.setStyleSheet(
+        self.electricTitle = QLabel("Electrical")
+        self.electricTitle.setAlignment(Qt.AlignCenter)
+        self.electricTitle.setStyleSheet(
             """
             font-size: 20px;
             font-weight: bold;
             padding: 12px;
             """
         )
-        electricTitle.setMaximumHeight(50)
+        self.electricTitle.setMaximumHeight(50)
 
 
         
-        electricPanel.addWidget(electricTitle, 0, 0, 1, 2)
+        electricPanel.addWidget(self.electricTitle, 0, 0, 1, 2)
         electricPanel.addWidget(motorPanel, 1, 0)
         electricPanel.addWidget(motorPanel, 1 , 1)
 
@@ -47,3 +47,6 @@ class ElectricPanel(BasePanel):
         electricPanel.setColumnStretch(1, 1)
 
         self.setLayout(electricPanel)
+
+        
+    

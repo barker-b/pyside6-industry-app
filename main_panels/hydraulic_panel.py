@@ -26,8 +26,9 @@ class HydraulicsPanel(BasePanel):
         cylPanel = Cylinder()
         motorPanel = Motor()
         pumpPanel = Pump()
-        extraPanel = QLabel("Coming soon!")
-        extraPanel.setAlignment(Qt.AlignCenter)
+
+        self.extraPanel = QLabel()
+        self.extraPanel.setAlignment(Qt.AlignCenter)
 
         hydraulicsLayout = QGridLayout()
         self.hydTitle = QLabel()
@@ -47,6 +48,7 @@ class HydraulicsPanel(BasePanel):
         hydraulicsLayout.addWidget(cylPanel, 1, 0)
         hydraulicsLayout.addWidget(motorPanel, 1 , 1)
         hydraulicsLayout.addWidget(pumpPanel, 2, 0)
+        hydraulicsLayout.addWidget(self.extraPanel, 2, 1)
 
         hydraulicsLayout.setColumnStretch(1, 1)
 
@@ -62,7 +64,10 @@ class HydraulicsPanel(BasePanel):
 
     def updateLanguage(self):
         self.hydTitle.setText(
-            lang_manager.get_text('hydraulics')
+            lang_manager.get_text('fem hydraulics')
+        )
+        self.extraPanel.setText(
+            lang_manager.get_text('coming soon')
         )
 
 

@@ -24,12 +24,14 @@ class TestPanel(BasePanel):
 
         testPanel = QGridLayout()
 
-        self.test = QLabel('greeting')
+        self.test = QLabel()
         self.test.setAlignment(Qt.AlignCenter)
 
         testPanel.addWidget(self.test)
 
         self.setLayout(testPanel)
+
+        self.updateLanguage()
 
         lang_manager.language_changed.connect(
             self.updateLanguage

@@ -1,6 +1,8 @@
 import sys
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
+from settings.languages import lang_manager
+from settings.app_state import AppState
 from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
@@ -36,7 +38,7 @@ class Motor(SecondPanel):
         self.pressureInput.setPlaceholderText("Pressure (psi)")
 
         # Labels
-        self.title = QLabel("Motor")
+        self.title = QLabel()
         self.output = QLabel("Motor Torque: 0\n Motor Speed: 0")
         self.output.setAlignment(Qt.AlignCenter)
         self.output.setMinimumHeight(40)
@@ -77,6 +79,12 @@ class Motor(SecondPanel):
         self.calcButton.clicked.connect(self.calculate)
         self.resetButton.clicked.connect(self.reset)
 
+        self.updateLanguage()
+
+        lang_manager.language_changed.connect(
+            self.updateLanguage
+        )
+
     def calculate(self):
         try:
             displacement = float(self.displacementInput.text())
@@ -113,3 +121,15 @@ class Motor(SecondPanel):
         self.displacementInput.clear()
         self.flowInput.clear()
         self.pressureInput.clear()
+
+    def updateLanguage(self):
+        if AppState.language == "es":
+            self.title.setText(
+                f"{lang_manager.get_text('motor')}\n"
+                f"{lang_manager.get_text('mas hydraulics')}"
+            )
+        else:
+            self.title.setText(
+                f"{lang_manager.get_text('hydraulic')}\n"
+                f"{lang_manager.get_text('motor')}"
+            )

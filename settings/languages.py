@@ -2,18 +2,25 @@
 
 SPANISH = {
     'greeting': 'Hola Mundo',
-    'hydraulics': 'Hidráulica',
+    'fem hydraulics': 'Hidráulica',
+    'mas hydraulics': 'Hidraulico',
     'cylinder': 'Cilindro',
     'motor': 'Motor',
     'pump': 'Bomba',
+    'coming soon': 'Sección en desarrollo',
+    'electric': 'Eléctrica',
 }
 
 ENGLISH = {
     'greeting': 'Hello World',
-    'hydraulics': 'Hydraulics',
+    'fem hydraulics': 'Hydraulics',
+    'mas hydraulics': 'Hydraulics',
+    'hydraulic': 'Hydraulic',
     'cylinder': 'Cylinder',
     'motor': 'Motor',
     'pump': 'Pump',
+    'coming soon': 'Coming soon',
+    'electrical': 'Electrical'
 }
 
 

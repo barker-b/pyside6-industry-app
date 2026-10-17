@@ -1,6 +1,7 @@
 import sys
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
+from settings.languages import lang_manager
 from PySide6.QtWidgets import (
     QMainWindow,
     QFrame,
@@ -34,7 +35,7 @@ class Cylinder(SecondPanel):
         self.pressureInput.setPlaceholderText("Pressure (psi)")
 
         # Labels
-        self.title = QLabel("Hydraulics")
+        self.title = QLabel()
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet(
             """
@@ -73,6 +74,12 @@ class Cylinder(SecondPanel):
 
         self.calcButton.clicked.connect(self.calculate)
         self.resetButton.clicked.connect(self.reset)
+
+        self.updateLanguage()
+
+        lang_manager.language_changed.connect(
+            self.updateLanguage
+        )
 
     def calculate(self):
         try:
@@ -116,6 +123,12 @@ class Cylinder(SecondPanel):
         self.boreInput.clear()
         self.rodInput.clear()
         self.pressureInput.clear()
+
+    def updateLanguage(self):
+        self.title.setText(
+            lang_manager.get_text('cylinder')
+        )
+
 
 
 
