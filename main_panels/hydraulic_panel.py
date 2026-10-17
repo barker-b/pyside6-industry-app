@@ -64,10 +64,10 @@ class HydraulicsPanel(BasePanel):
 
     def updateLanguage(self):
         self.hydTitle.setText(
-            lang_manager.get_text('fem hydraulics')
+            lang_manager.get_text('hydraulics_feminine')
         )
         self.extraPanel.setText(
-            lang_manager.get_text('coming soon')
+            lang_manager.get_text('coming_soon')
         )
 
 

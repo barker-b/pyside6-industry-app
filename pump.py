@@ -1,6 +1,7 @@
 import sys
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
+from settings.languages import lang_manager
 from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
@@ -26,16 +27,12 @@ class Pump(SecondPanel):
 
         # Input Boxes
         self.displacementInput = DarkInput()
-        self.displacementInput.setPlaceholderText("Displacement(ci)")
-
         self.speedInput = DarkInput()
-        self.speedInput.setPlaceholderText("Speed (rpm)")
-
         self.pressureInput = DarkInput()
-        self.pressureInput.setPlaceholderText("Pressure (psi)")
+
 
         # Labels
-        self.title = QLabel("Pump")
+        self.title = QLabel()
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet("""
             QLabel {
@@ -46,11 +43,7 @@ class Pump(SecondPanel):
         """)
 
 
-        self.output = QLabel(
-            "Pump Output: 0 GPM.\n"
-            "Horsepower: 0 HP.\n"
-            "Driving Torque Required: 0 ft-lbs."
-        )
+        self.output = QLabel()
         self.output.setAlignment(Qt.AlignCenter)
         self.output.setMinimumHeight(40)
         
@@ -58,9 +51,8 @@ class Pump(SecondPanel):
 
         # Buttons
         self.calcButton = DarkButton()
-        self.calcButton.setText("Calculate")
         self.resetButton = DarkButton()
-        self.resetButton.setText("Reset")
+
 
         # Button layout
         buttonLayout = QGridLayout()
@@ -82,6 +74,16 @@ class Pump(SecondPanel):
         self.calcButton.clicked.connect(self.calculate)
         self.resetButton.clicked.connect(self.reset)
 
+        self.pump_flow = 0
+        self.horse_power = 0
+        self.required_torque = 0
+
+        self.updateLanguage()
+
+        lang_manager.language_changed.connect(
+            self.updateLanguage
+        )
+
 
     def calculate(self):
         try:
@@ -96,29 +98,54 @@ class Pump(SecondPanel):
                 pressure=pressure
             )
 
-            pumpFlow = calc.output_flow()
-            horsePower = calc.horse_power()
-            torque = calc.torque()
+            self.pump_flow = calc.output_flow()
+            self.horse_power = calc.horse_power()
+            self.required_torque = calc.torque()
 
-            self.output.setText(
-                f"Pump Output: {pumpFlow:,.0f} GPM.\n"
-                f"Pump Horsepower: {horsePower:,.0f} HP.\n"
-                f"Driving Torque Required: {torque:,.0f} ft-lbs."
-            )
-        
 
         except ValueError:
             self.output.setText("Error.")
 
+        self.updateLanguage()
+
 
     def reset(self):
-        self.output.setText(
-            "Pump Output: 0 GPM.\n"
-            "Horsepower: 0 HP.\n"
-            "Driving Torque Required: 0 ft-lbs."            
-        )
         self.displacementInput.clear()
         self.speedInput.clear()
         self.pressureInput.clear()
+
+        self.pump_flow = 0
+        self.horse_power = 0
+        self.required_torque = 0        
+
+        self.updateLanguage()
+
+    def updateLanguage(self):
+        self.title.setText(
+            lang_manager.get_text('pump')
+        )
+        self.calcButton.setText(
+            lang_manager.get_text('calculate')
+        )
+        self.resetButton.setText(
+            lang_manager.get_text('reset')
+        )
+        self.displacementInput.setPlaceholderText(
+            lang_manager.get_text('displacement_hint')
+        )
+        self.speedInput.setPlaceholderText(
+            lang_manager.get_text('speed_hint')
+        )
+        self.pressureInput.setPlaceholderText(
+            lang_manager.get_text('pressure_hint')
+        )
+        self.output.setText(
+            f"{lang_manager.get_text('pump_flow')}"
+            f" {self.pump_flow:,.0f} GPM"
+            f"\n{lang_manager.get_text('horse_power')}"
+            f" {self.horse_power:,.0f} HP"
+            f"\n{lang_manager.get_text('required_torque')}"
+            f" {self.required_torque:,.0f} lb-ft"
+        )
         
         

@@ -24,22 +24,19 @@ class Motor(SecondPanel):
 
         # Panel design
         self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)        
+        self.setFrameShadow(QFrame.Raised)
+
 
 
         # Input Boxes
         self.displacementInput = DarkInput()
-        self.displacementInput.setPlaceholderText("Displacement (ci)")
-
         self.flowInput = DarkInput()
-        self.flowInput.setPlaceholderText("flow (gpm)")
-
         self.pressureInput = DarkInput()
-        self.pressureInput.setPlaceholderText("Pressure (psi)")
+
 
         # Labels
         self.title = QLabel()
-        self.output = QLabel("Motor Torque: 0\n Motor Speed: 0")
+        self.output = QLabel()
         self.output.setAlignment(Qt.AlignCenter)
         self.output.setMinimumHeight(40)
 
@@ -52,13 +49,9 @@ class Motor(SecondPanel):
                 }
         """)
 
-
         # Buttons
-
         self.calcButton = DarkButton()
-        self.calcButton.setText("Calculate")
         self.resetButton = DarkButton()
-        self.resetButton.setText("Reset")
 
         #Button Layout
         buttonLayout = QGridLayout()
@@ -78,6 +71,9 @@ class Motor(SecondPanel):
 
         self.calcButton.clicked.connect(self.calculate)
         self.resetButton.clicked.connect(self.reset)
+        
+        self.motor_torque = 0
+        self.motor_speed = 0         
 
         self.updateLanguage()
 
@@ -104,32 +100,57 @@ class Motor(SecondPanel):
                 pressure=pressure
             )
 
-            torque = calc.motor_torque()
-            motor_speed = calc.motor_speed()
+            self.motor_torque = calc.motor_torque()
+            self.motor_speed = calc.motor_speed()
 
-            self.output.setText(
-                f"Motor Torque: {torque:,.0f} ft-lbs.\n"
-                f"Motor Speed: {motor_speed:,.0f} RPM."
-            )
+            self.updateLanguage()
+
+
 
         except ValueError:
             self.output.setText("Error.")
 
 
     def reset(self):
-        self.output.setText("Motor Torque: 0\n Motor Speed: 0")
         self.displacementInput.clear()
         self.flowInput.clear()
         self.pressureInput.clear()
+
+        self.motor_torque = 0
+        self.motor_speed = 0
+
+        self.updateLanguage()
 
     def updateLanguage(self):
         if AppState.language == "es":
             self.title.setText(
                 f"{lang_manager.get_text('motor')}\n"
-                f"{lang_manager.get_text('mas hydraulics')}"
+                f"{lang_manager.get_text('hydraulics_masculine')}"
             )
         else:
             self.title.setText(
                 f"{lang_manager.get_text('hydraulic')}\n"
                 f"{lang_manager.get_text('motor')}"
             )
+
+        self.calcButton.setText(
+            lang_manager.get_text('calculate')
+        )
+        self.resetButton.setText(
+            lang_manager.get_text('reset')
+        )
+        self.displacementInput.setPlaceholderText(
+            lang_manager.get_text('displacement_hint')
+        )
+        self.flowInput.setPlaceholderText(
+            lang_manager.get_text('flow_hint')
+        )
+        self.pressureInput.setPlaceholderText(
+            lang_manager.get_text('pressure_hint')
+        )
+        self.output.setText(
+            f"{lang_manager.get_text('motor_torque')} {self.motor_torque:,.0f}"
+            f" {'lb-ft'}\n"
+            f"{lang_manager.get_text('motor_speed')} {self.motor_speed:,.0f}"
+            f" {'RPM'}"
+        )

@@ -41,6 +41,6 @@ class TestPanel(BasePanel):
 
     def updateLanguage(self):
         self.test.setText(
-            lang_manager.get_text('greeting')
+            lang_manager.get_text('coming_soon')
         )
         
