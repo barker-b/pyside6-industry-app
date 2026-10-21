@@ -71,7 +71,7 @@ class Motor(SecondPanel):
 
         self.calcButton.clicked.connect(self.calculate)
         self.resetButton.clicked.connect(self.reset)
-        
+
         self.motor_torque = 0
         self.motor_speed = 0         
 
@@ -122,17 +122,9 @@ class Motor(SecondPanel):
         self.updateLanguage()
 
     def updateLanguage(self):
-        if AppState.language == "es":
-            self.title.setText(
-                f"{lang_manager.get_text('motor')}\n"
-                f"{lang_manager.get_text('hydraulics_masculine')}"
-            )
-        else:
-            self.title.setText(
-                f"{lang_manager.get_text('hydraulic')}\n"
-                f"{lang_manager.get_text('motor')}"
-            )
-
+        self.title.setText(
+            lang_manager.get_text('hydraulic_motor')
+        )
         self.calcButton.setText(
             lang_manager.get_text('calculate')
         )

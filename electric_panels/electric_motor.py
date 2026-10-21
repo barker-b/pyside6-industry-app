@@ -1,6 +1,7 @@
 import sys
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
+from settings.languages import lang_manager
 from PySide6.QtWidgets import (
     QMainWindow,
     QFrame,
@@ -23,13 +24,12 @@ class ElectricMotor(SecondPanel):
         self.phaseInput = DarkInput()
 
 
-        self.title = QLabel("Motor")
+        self.title = QLabel()
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet(
             """
             font-size: 20px;
             font-weight: bold;
-            padding: 6px;
             """   
         )
         self.title.setMaximumHeight(50)
@@ -42,4 +42,15 @@ class ElectricMotor(SecondPanel):
 
 
         self.setLayout(mainLayout)
+
+        self.updateLanguage()
+
+        lang_manager.language_changed.connect(
+            self.updateLanguage
+        )
+
+    def updateLanguage(self):
+        self.title.setText(
+            lang_manager.get_text('electrical_motor')
+        )
 

@@ -46,11 +46,12 @@ class HydraulicsPanel(BasePanel):
         
         hydraulicsLayout.addWidget(self.hydTitle, 0, 0, 1, 2)
         hydraulicsLayout.addWidget(cylPanel, 1, 0)
-        hydraulicsLayout.addWidget(motorPanel, 1 , 1)
+        hydraulicsLayout.addWidget(motorPanel, 1, 1)
         hydraulicsLayout.addWidget(pumpPanel, 2, 0)
         hydraulicsLayout.addWidget(self.extraPanel, 2, 1)
 
-        hydraulicsLayout.setColumnStretch(1, 1)
+        #hydraulicsLayout.setColumnStretch(0, 1)
+        #hydraulicsLayout.setColumnStretch(1, 1)
 
         self.setLayout(hydraulicsLayout)
 
@@ -64,7 +65,7 @@ class HydraulicsPanel(BasePanel):
 
     def updateLanguage(self):
         self.hydTitle.setText(
-            lang_manager.get_text('hydraulics_feminine')
+            lang_manager.get_text('hydraulics')
         )
         self.extraPanel.setText(
             lang_manager.get_text('coming_soon')

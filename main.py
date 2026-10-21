@@ -60,24 +60,6 @@ class MainWindow(QMainWindow):
         self.test_panel_left = TestPanel()
         test_panel_right = TestPanel()
 
-        # Placeholders for now
-        electricLabel = QLabel("Electrical Coming Next!")
-        fluidsLabel = QLabel("Fluids Coming Soon!")
-        materialsLabel = QLabel("Materials Coming Soon!")
-        extraPanel = QLabel("Coming soon!")
-        extraPanel.setAlignment(Qt.AlignCenter)
-    
-        electricPanel = QGridLayout()
-        electricPanel.addWidget(electricLabel)
-        electricLabel.setAlignment(Qt.AlignCenter)
-
-        fluidsPanel = QGridLayout()
-        fluidsPanel.addWidget(fluidsLabel)
-        fluidsLabel.setAlignment(Qt.AlignCenter)
-
-        materialsPanel = QGridLayout()
-        materialsPanel.addWidget(materialsLabel)
-        materialsLabel.setAlignment(Qt.AlignCenter)
 
         mainLayout.addWidget(hydraulic_Panel, 0, 0)
         mainLayout.addWidget(electric_Panel, 0, 1)
@@ -110,7 +92,7 @@ class MainWindow(QMainWindow):
 
             lang_manager.set_language('es')
 
-            self.toggleLanguageAction.setText("English")
+            self.toggleLanguageAction.setText("Inglés")
 
         else:
             AppState.language = "en"
