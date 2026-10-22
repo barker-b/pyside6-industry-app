@@ -26,6 +26,12 @@ SPANISH = {
     'displacement_hint': 'Desplazamiento (CIR)',
     'flow_hint': 'Caudal (GPM)',
     'speed_hint': 'Velocidad (RPM)',
+    'rod_bore_error': 'Inválido, la barra no puede ser\n'
+                      'igual o más grande que el diámetro.',
+    'negative_error': 'Inválido, los valores deben ser\n'
+                      'números positivos.',
+    'invalid_input': 'Por favor ingrese números válidos.',
+
 
 }
 
@@ -55,7 +61,12 @@ ENGLISH = {
     'pressure_hint': 'Pressure (PSI)',
     'displacement_hint': 'Displacement (in³)',
     'flow_hint': 'Flow (GPM)',
-    'speed_hint': 'Speed (RPM)'
+    'speed_hint': 'Speed (RPM)',
+    'rod_bore_error': 'Invalid, rod cannot be\n'
+                      'the same or larger than bore.',
+    'negative_error': 'Invalid, inputs must be\n'
+                      'positive numbers.',
+    'invalid_input': 'Please enter valid numbers.',
 }
 
 
