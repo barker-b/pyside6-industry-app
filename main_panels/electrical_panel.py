@@ -65,7 +65,7 @@ class ElectricPanel(BasePanel):
         self.electricTitle.setText(
             lang_manager.get_text('electrical')
         )
-        print(repr(lang_manager.get_text('electrical')))
+
 
 
         

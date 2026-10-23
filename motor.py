@@ -73,12 +73,19 @@ class Motor(SecondPanel):
         self.resetButton.clicked.connect(self.reset)
 
         self.motor_torque = 0
-        self.motor_speed = 0         
+        self.motor_speed = 0 
+
+        self.current_error = None        
 
         self.updateLanguage()
+        self.updateOutputs()
 
         lang_manager.language_changed.connect(
             self.updateLanguage
+        )
+
+        lang_manager.language_changed.connect(
+            self.updateOutputs
         )
 
     def calculate(self):
@@ -88,10 +95,8 @@ class Motor(SecondPanel):
             pressure = float(self.pressureInput.text())
 
             if displacement < 0 or flow < 0 or pressure < 0:
-                self.output.setText(
-                    "Invalid, inputs must be\n"
-                    "positive numbers"
-                )
+                self.current_error = 'negative_error'
+                self.updateOutputs()
                 return
 
             calc = MotorFormula(
@@ -103,12 +108,14 @@ class Motor(SecondPanel):
             self.motor_torque = calc.motor_torque()
             self.motor_speed = calc.motor_speed()
 
-            self.updateLanguage()
+            self.current_error = None
 
-
+            self.updateOutputs()
 
         except ValueError:
-            self.output.setText("Error.")
+            self.current_error = 'invalid_input'
+            self.updateOutputs()
+
 
 
     def reset(self):
@@ -118,8 +125,26 @@ class Motor(SecondPanel):
 
         self.motor_torque = 0
         self.motor_speed = 0
+        self.current_error = None
 
+        self.updateOutputs()
         self.updateLanguage()
+
+    def updateOutputs(self):
+        if self.current_error:
+            self.output.setText(
+                lang_manager.get_text(
+                    self.current_error
+                )
+            )
+            return
+
+        self.output.setText(
+            f"{lang_manager.get_text('motor_torque')} {self.motor_torque:,.0f}"
+            f" {'lb-ft'}\n"
+            f"{lang_manager.get_text('motor_speed')} {self.motor_speed:,.0f}"
+            f" {'RPM'}"
+        )
 
     def updateLanguage(self):
         self.title.setText(
@@ -139,10 +164,4 @@ class Motor(SecondPanel):
         )
         self.pressureInput.setPlaceholderText(
             lang_manager.get_text('pressure_hint')
-        )
-        self.output.setText(
-            f"{lang_manager.get_text('motor_torque')} {self.motor_torque:,.0f}"
-            f" {'lb-ft'}\n"
-            f"{lang_manager.get_text('motor_speed')} {self.motor_speed:,.0f}"
-            f" {'RPM'}"
         )

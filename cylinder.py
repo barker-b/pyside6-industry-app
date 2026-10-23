@@ -1,6 +1,7 @@
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
 from settings.languages import lang_manager
+from settings.values import CYLINDER_VALUES
 from calculator import CylFormula
 import traceback
 from PySide6.QtWidgets import (
@@ -67,8 +68,8 @@ class Cylinder(SecondPanel):
         self.current_error = None
 
 
-        self.updateLanguage()
         self.updateOutputs()
+        self.updateLanguage()
 
 
         lang_manager.language_changed.connect(
@@ -79,6 +80,7 @@ class Cylinder(SecondPanel):
         )
 
     def calculate(self):
+        print(CYLINDER_VALUES)
         
         try:
 
@@ -109,12 +111,16 @@ class Cylinder(SecondPanel):
 
             self.updateOutputs()
 
+            CYLINDER_VALUES['bore'] = bore
+            CYLINDER_VALUES['rod'] = rod
+            CYLINDER_VALUES['pressure'] = pressure
             
+
+            self.check()
+
         except ValueError:
             self.current_error = 'invalid_input'
             self.updateOutputs()
-            traceback.print_exc()
-
 
 
     def reset(self):
@@ -167,6 +173,10 @@ class Cylinder(SecondPanel):
         self.pressureInput.setPlaceholderText(
             lang_manager.get_text('pressure_hint')
         )
+
+    def check(self):
+        print(CYLINDER_VALUES)
+
 
 
 

@@ -2,6 +2,7 @@ import sys
 from main_panels.hydraulic_panel import HydraulicsPanel
 from main_panels.electrical_panel import ElectricPanel
 from main_panels.test_panel import TestPanel
+from main_panels.angle_panel import AnglePanel
 from settings.app_state import AppState
 from motor import Motor
 from pump import Pump
@@ -57,13 +58,13 @@ class MainWindow(QMainWindow):
         # Panels
         hydraulic_Panel = HydraulicsPanel()
         electric_Panel = ElectricPanel()
-        self.test_panel_left = TestPanel()
+        angle_panel = AnglePanel()
         test_panel_right = TestPanel()
 
 
         mainLayout.addWidget(hydraulic_Panel, 0, 0)
         mainLayout.addWidget(electric_Panel, 0, 1)
-        mainLayout.addWidget(self.test_panel_left, 1, 0)
+        mainLayout.addWidget(angle_panel, 1, 0)
         mainLayout.addWidget(test_panel_right, 1, 1)
 
 

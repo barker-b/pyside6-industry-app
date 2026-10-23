@@ -78,10 +78,16 @@ class Pump(SecondPanel):
         self.horse_power = 0
         self.required_torque = 0
 
+        self.current_error = None
+
+        self.updateOutputs()
         self.updateLanguage()
 
         lang_manager.language_changed.connect(
             self.updateLanguage
+        )
+        lang_manager.language_changed.connect(
+            self.updateOutputs
         )
 
 
@@ -91,6 +97,11 @@ class Pump(SecondPanel):
             displacement = float(self.displacementInput.text())
             rpm = float(self.speedInput.text())
             pressure = float(self.pressureInput.text())
+
+            if displacement < 0 or rpm < 0 or pressure < 0:
+                self.current_error = 'negative_error'
+                self.updateOutputs()
+                return
 
             calc = PumpFormula(
                 displacement=displacement,
@@ -102,11 +113,14 @@ class Pump(SecondPanel):
             self.horse_power = calc.horse_power()
             self.required_torque = calc.torque()
 
+            self.current_error = None
+
+            self.updateOutputs()
 
         except ValueError:
-            self.output.setText("Error.")
+            self.current_error = 'invalid_input'
+            self.updateOutputs()
 
-        self.updateLanguage()
 
 
     def reset(self):
@@ -116,9 +130,31 @@ class Pump(SecondPanel):
 
         self.pump_flow = 0
         self.horse_power = 0
-        self.required_torque = 0        
+        self.required_torque = 0
+        self.current_error = None        
 
+        self.updateOutputs()
         self.updateLanguage()
+
+    def updateOutputs(self):
+
+        if self.current_error:
+            self.output.setText(
+                lang_manager.get_text(
+                    self.current_error
+                )
+            )
+            return
+
+        self.output.setText(
+            f"{lang_manager.get_text('pump_flow')}"
+            f" {self.pump_flow:,.0f} GPM"
+            f"\n{lang_manager.get_text('horse_power')}"
+            f" {self.horse_power:,.0f} HP"
+            f"\n{lang_manager.get_text('required_torque')}"
+            f" {self.required_torque:,.0f} lb-ft"
+        )
+        
 
     def updateLanguage(self):
         self.title.setText(
@@ -138,14 +174,6 @@ class Pump(SecondPanel):
         )
         self.pressureInput.setPlaceholderText(
             lang_manager.get_text('pressure_hint')
-        )
-        self.output.setText(
-            f"{lang_manager.get_text('pump_flow')}"
-            f" {self.pump_flow:,.0f} GPM"
-            f"\n{lang_manager.get_text('horse_power')}"
-            f" {self.horse_power:,.0f} HP"
-            f"\n{lang_manager.get_text('required_torque')}"
-            f" {self.required_torque:,.0f} lb-ft"
         )
         
         
