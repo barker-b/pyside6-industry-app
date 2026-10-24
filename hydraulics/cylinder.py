@@ -1,154 +1,163 @@
-import sys
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
 from settings.languages import lang_manager
-from settings.app_state import AppState
+from settings.values import CYLINDER_VALUES
+from calculator import CylFormula
+from .cylinder_graph import CylinderGraph
 from PySide6.QtWidgets import (
-    QMainWindow,
-    QApplication,
-    QWidget,
     QVBoxLayout,
-    QHBoxLayout,
-    QLineEdit,
-    QPushButton,
-    QLabel,
-    QFrame,
     QGridLayout,
+    QLabel,
 )
 
-from calculator import MotorFormula
 
-class Motor(SecondPanel):
+
+class Cylinder(SecondPanel):
     def __init__(self):
         super().__init__()
 
-        # Panel design
-        self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)
-
-
 
         # Input Boxes
-        self.displacementInput = DarkInput()
-        self.flowInput = DarkInput()
+        self.boreInput = DarkInput()
+        self.rodInput = DarkInput()
         self.pressureInput = DarkInput()
 
 
         # Labels
         self.title = QLabel()
+        self.title.setAlignment(Qt.AlignCenter)
+        self.title.setStyleSheet(
+            """
+            font-size: 20px;
+            font-weight: bold;
+            padding: 6px;
+            """
+        )
+
         self.output = QLabel()
         self.output.setAlignment(Qt.AlignCenter)
         self.output.setMinimumHeight(40)
-
-        self.title.setAlignment(Qt.AlignCenter)
-        self.title.setStyleSheet("""
-            QLabel {
-                font-size: 20px;
-                font-weight: bold;
-                padding: 6px
-                }
-        """)
 
         # Buttons
         self.calcButton = DarkButton()
         self.resetButton = DarkButton()
 
-        #Button Layout
+        self.graph = CylinderGraph()
+
+
+        # Button layout
         buttonLayout = QGridLayout()
         buttonLayout.addWidget(self.calcButton, 0, 0)
         buttonLayout.addWidget(self.resetButton, 0, 1)
-
+        
         # Main screen layout
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self.title)
-        mainLayout.addWidget(self.displacementInput)
-        mainLayout.addWidget(self.flowInput)
+        mainLayout.addWidget(self.boreInput)
+        mainLayout.addWidget(self.rodInput)
         mainLayout.addWidget(self.pressureInput)
         mainLayout.addWidget(self.output)
         mainLayout.addLayout(buttonLayout)
+        mainLayout.addWidget(self.graph)
 
         self.setLayout(mainLayout)
 
         self.calcButton.clicked.connect(self.calculate)
         self.resetButton.clicked.connect(self.reset)
 
-        self.motor_torque = 0
-        self.motor_speed = 0 
+        self.push = 0
+        self.pull = 0
 
-        self.current_error = None        
+        self.current_error = None
 
-        self.updateLanguage()
+
         self.updateOutputs()
+        self.updateLanguage()
+
 
         lang_manager.language_changed.connect(
             self.updateLanguage
         )
-
         lang_manager.language_changed.connect(
             self.updateOutputs
         )
 
-    def calculate(self):
+    def calculate(self):        
         try:
-            displacement = float(self.displacementInput.text())
-            flow = float(self.flowInput.text())
+            bore = float(self.boreInput.text())
+            rod = float(self.rodInput.text())
             pressure = float(self.pressureInput.text())
 
-            if displacement < 0 or flow < 0 or pressure < 0:
+            if rod < 0 or bore < 0 or pressure < 0:
                 self.current_error = 'negative_error'
                 self.updateOutputs()
                 return
-
-            calc = MotorFormula(
-                displacement=displacement,
-                flow=flow,
+                
+            if rod >= bore:
+                self.current_error = 'rod_bore_error'
+                self.updateOutputs()
+                return
+                
+            calc = CylFormula(
+                bore=bore,
+                rod=rod,
                 pressure=pressure
             )
 
-            self.motor_torque = calc.motor_torque()
-            self.motor_speed = calc.motor_speed()
+            self.push = calc.cyl_ext_force()
+            self.pull = calc.cyl_ret_force()
+
+            CYLINDER_VALUES['bore'] = bore
+            CYLINDER_VALUES['rod'] = rod
+            CYLINDER_VALUES['pressure'] = pressure
+            CYLINDER_VALUES['push_force'] = self.push
+            CYLINDER_VALUES['pull_force'] = self.pull
 
             self.current_error = None
 
             self.updateOutputs()
 
+            
         except ValueError:
             self.current_error = 'invalid_input'
             self.updateOutputs()
 
-
+        print(CYLINDER_VALUES)
 
     def reset(self):
-        self.displacementInput.clear()
-        self.flowInput.clear()
+        self.boreInput.clear()
+        self.rodInput.clear()
         self.pressureInput.clear()
 
-        self.motor_torque = 0
-        self.motor_speed = 0
+        self.push = 0
+        self.pull = 0
         self.current_error = None
 
-        self.updateOutputs()
         self.updateLanguage()
+        self.updateOutputs()
 
     def updateOutputs(self):
+
         if self.current_error:
             self.output.setText(
                 lang_manager.get_text(
                     self.current_error
-                )
+                    )
             )
             return
-
+        
         self.output.setText(
-            f"{lang_manager.get_text('motor_torque')} {self.motor_torque:,.0f}"
-            f" {'lb-ft'}\n"
-            f"{lang_manager.get_text('motor_speed')} {self.motor_speed:,.0f}"
-            f" {'RPM'}"
+            f"{lang_manager.get_text('push_force')} {self.push:,.0f} "
+            f" {lang_manager.get_text('pounds')}\n"
+            f"{lang_manager.get_text('pull_force')} {self.pull:,.0f} "
+            f" {lang_manager.get_text('pounds')}"
         )
 
+
     def updateLanguage(self):
+
         self.title.setText(
-            lang_manager.get_text('hydraulic_motor')
+            lang_manager.get_text('cylinder')
         )
         self.calcButton.setText(
             lang_manager.get_text('calculate')
@@ -156,12 +165,28 @@ class Motor(SecondPanel):
         self.resetButton.setText(
             lang_manager.get_text('reset')
         )
-        self.displacementInput.setPlaceholderText(
-            lang_manager.get_text('displacement_hint')
+        self.boreInput.setPlaceholderText(
+            lang_manager.get_text('bore_hint')
         )
-        self.flowInput.setPlaceholderText(
-            lang_manager.get_text('flow_hint')
+        self.rodInput.setPlaceholderText(
+            lang_manager.get_text('rod_hint')
         )
         self.pressureInput.setPlaceholderText(
             lang_manager.get_text('pressure_hint')
         )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

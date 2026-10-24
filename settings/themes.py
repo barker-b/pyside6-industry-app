@@ -1,7 +1,7 @@
 DARK_THEME = """
 
 QMainWindow {
-    background-color: #1E1E1E;
+    background-color: #2A2A2A;
     }
 
 QWidget#central {

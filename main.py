@@ -3,9 +3,10 @@ from main_panels.hydraulic_panel import HydraulicsPanel
 from main_panels.electrical_panel import ElectricPanel
 from main_panels.test_panel import TestPanel
 from main_panels.angle_panel import AnglePanel
+from widgets.custom_widgets import DarkButton
 from settings.app_state import AppState
-from motor import Motor
-from pump import Pump
+from hydraulics.motor import Motor
+from hydraulics.pump import Pump
 from PySide6.QtCore import Qt
 from settings.themes import THEMES
 from settings.languages import lang_manager
@@ -13,13 +14,11 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
     QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QLineEdit,
-    QPushButton,
-    QLabel,
     QGridLayout,
     QToolBar,
+    QHBoxLayout,
+    QVBoxLayout,
+    QStackedLayout,
 )
 from PySide6.QtGui import QAction
 
@@ -28,12 +27,24 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Indusrty Calculator")
-        self.resize(800, 800)
+        self.resize(1000, 800)
 
         # Tool bar
         self.tool_bar = QToolBar("Tools")
         self.tool_bar.setMovable(False)
         self.addToolBar(self.tool_bar)
+
+        self.hydraulicsAction = QAction("Hydraulics", self)
+        self.hydraulicsAction.triggered.connect(
+            lambda: self.stackLayout.setCurrentWidget(self.hydraulicPanel)
+        )
+        self.tool_bar.addAction(self.hydraulicsAction)
+
+        self.electricalAction = QAction("Electrical", self)
+        self.electricalAction.triggered.connect(
+            lambda: self.stackLayout.setCurrentWidget(self.electricPanel)
+        )      
+        self.tool_bar.addAction(self.electricalAction)
 
         self.toggleThemeAction = QAction("Dark Theme", self)
         self.toggleThemeAction.triggered.connect(self.toggleTheme)
@@ -48,29 +59,23 @@ class MainWindow(QMainWindow):
         self.tool_bar.addAction(self.toggleLanguageAction)
 
 
+        # Central widget
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
-        # Main Layout
-        mainLayout = QGridLayout()
-        central_widget.setLayout(mainLayout)
+        # Stacked layout
+        self.stackLayout = QStackedLayout()
+        central_widget.setLayout(self.stackLayout)
 
-        # Panels
-        hydraulic_Panel = HydraulicsPanel()
-        electric_Panel = ElectricPanel()
-        angle_panel = AnglePanel()
-        test_panel_right = TestPanel()
+        # Pages
+        self.hydraulicPanel = HydraulicsPanel()
+        self.electricPanel = ElectricPanel()
 
+        self.stackLayout.addWidget(self.hydraulicPanel)
+        self.stackLayout.addWidget(self.electricPanel)
 
-        mainLayout.addWidget(hydraulic_Panel, 0, 0)
-        mainLayout.addWidget(electric_Panel, 0, 1)
-        mainLayout.addWidget(angle_panel, 1, 0)
-        mainLayout.addWidget(test_panel_right, 1, 1)
-
-
-        mainLayout.setRowStretch(1, 1)
-        mainLayout.setColumnStretch(0, 1)
-        mainLayout.setColumnStretch(1, 1)
+    def hydraulicsTab(self):
+        pass
 
     def toggleTheme(self):
         if AppState.theme == "light":

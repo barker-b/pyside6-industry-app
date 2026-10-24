@@ -1,22 +1,11 @@
 from PySide6.QtCore import Qt
 from electric_panels.electric_motor import ElectricMotor
-from motor import Motor
-from pump import Pump
+from hydraulics.motor import Motor
+from hydraulics.pump import Pump
 from widgets.custom_widgets import BasePanel, SecondPanel
 from settings.languages import lang_manager
-from PySide6.QtWidgets import (
-    QMainWindow,
-    QApplication,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QLineEdit,
-    QPushButton,
-    QLabel,
-    QGridLayout,
-    QToolBar,
-    QFrame,
-)
+from PySide6.QtWidgets import QLabel, QGridLayout
+
 
 class ElectricPanel(BasePanel):
     def __init__(self):

@@ -1,58 +1,59 @@
+import sys
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
 from settings.languages import lang_manager
-from settings.values import CYLINDER_VALUES
-from calculator import CylFormula
-import traceback
+from settings.values import PUMP_VALUES
 from PySide6.QtWidgets import (
     QVBoxLayout,
-    QGridLayout,
     QLabel,
+    QGridLayout,
+    QFrame
 )
 
+from calculator import PumpFormula
 
-
-class Cylinder(SecondPanel):
+class Pump(SecondPanel):
     def __init__(self):
         super().__init__()
 
+        # Panel design
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)        
 
         # Input Boxes
-        self.boreInput = DarkInput()
-        self.rodInput = DarkInput()
+        self.displacementInput = DarkInput()
+        self.speedInput = DarkInput()
         self.pressureInput = DarkInput()
-
 
         # Labels
         self.title = QLabel()
         self.title.setAlignment(Qt.AlignCenter)
-        self.title.setStyleSheet(
-            """
-            font-size: 20px;
-            font-weight: bold;
-            padding: 6px;
-            """
-        )
+        self.title.setStyleSheet("""
+            QLabel {
+                font-size: 20px;
+                font-weight: bold;
+                padding: 6px;
+                }
+        """)
 
         self.output = QLabel()
         self.output.setAlignment(Qt.AlignCenter)
         self.output.setMinimumHeight(40)
-
+        
         # Buttons
         self.calcButton = DarkButton()
         self.resetButton = DarkButton()
-
 
         # Button layout
         buttonLayout = QGridLayout()
         buttonLayout.addWidget(self.calcButton, 0, 0)
         buttonLayout.addWidget(self.resetButton, 0, 1)
-        
-        # Main screen layout
+
+        # Window layout
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self.title)
-        mainLayout.addWidget(self.boreInput)
-        mainLayout.addWidget(self.rodInput)
+        mainLayout.addWidget(self.displacementInput)
+        mainLayout.addWidget(self.speedInput)
         mainLayout.addWidget(self.pressureInput)
         mainLayout.addWidget(self.output)
         mainLayout.addLayout(buttonLayout)
@@ -62,15 +63,14 @@ class Cylinder(SecondPanel):
         self.calcButton.clicked.connect(self.calculate)
         self.resetButton.clicked.connect(self.reset)
 
-        self.push = 0
-        self.pull = 0
+        self.pump_flow = 0
+        self.horse_power = 0
+        self.required_torque = 0
 
         self.current_error = None
 
-
         self.updateOutputs()
         self.updateLanguage()
-
 
         lang_manager.language_changed.connect(
             self.updateLanguage
@@ -79,61 +79,59 @@ class Cylinder(SecondPanel):
             self.updateOutputs
         )
 
+
     def calculate(self):
-        print(CYLINDER_VALUES)
-        
         try:
 
-            bore = float(self.boreInput.text())
-            rod = float(self.rodInput.text())
+            displacement = float(self.displacementInput.text())
+            rpm = float(self.speedInput.text())
             pressure = float(self.pressureInput.text())
 
-            if rod < 0 or bore < 0 or pressure < 0:
+            if displacement < 0 or rpm < 0 or pressure < 0:
                 self.current_error = 'negative_error'
                 self.updateOutputs()
                 return
-            
-            if rod >= bore:
-                self.current_error = 'rod_bore_error'
-                self.updateOutputs()
-                return
-        
-            calc = CylFormula(
-                bore=bore,
-                rod=rod,
+
+            calc = PumpFormula(
+                displacement=displacement,
+                rpm=rpm,
                 pressure=pressure
             )
 
-            self.push = calc.cyl_ext_force()
-            self.pull = calc.cyl_ret_force()
+            self.pump_flow = calc.output_flow()
+            self.horse_power = calc.horse_power()
+            self.required_torque = calc.torque()
+
+            PUMP_VALUES['displacement'] = displacement
+            PUMP_VALUES['speed'] = rpm
+            PUMP_VALUES['pressure'] = pressure
+            PUMP_VALUES['pump_flow'] = self.pump_flow
+            PUMP_VALUES['horse_power'] = self.horse_power
+            PUMP_VALUES['required_torque'] = self.required_torque
 
             self.current_error = None
 
             self.updateOutputs()
 
-            CYLINDER_VALUES['bore'] = bore
-            CYLINDER_VALUES['rod'] = rod
-            CYLINDER_VALUES['pressure'] = pressure
-            
-
-            self.check()
-
         except ValueError:
             self.current_error = 'invalid_input'
             self.updateOutputs()
 
+        print(PUMP_VALUES)
+
 
     def reset(self):
-        self.boreInput.clear()
-        self.rodInput.clear()
+        self.displacementInput.clear()
+        self.speedInput.clear()
         self.pressureInput.clear()
 
-        self.push = 0
-        self.pull = 0
-        self.current_error = None
+        self.pump_flow = 0
+        self.horse_power = 0
+        self.required_torque = 0
+        self.current_error = None        
 
-        self.updateLanguage()
         self.updateOutputs()
+        self.updateLanguage()
 
     def updateOutputs(self):
 
@@ -141,22 +139,23 @@ class Cylinder(SecondPanel):
             self.output.setText(
                 lang_manager.get_text(
                     self.current_error
-                    )
+                )
             )
             return
-        
-        self.output.setText(
-            f"{lang_manager.get_text('push_force')} {self.push:,.0f} "
-            f" {lang_manager.get_text('pounds')}\n"
-            f"{lang_manager.get_text('pull_force')} {self.pull:,.0f} "
-            f" {lang_manager.get_text('pounds')}"
-        )
 
+        self.output.setText(
+            f"{lang_manager.get_text('pump_flow')}"
+            f" {self.pump_flow:,.0f} GPM"
+            f"\n{lang_manager.get_text('horse_power')}"
+            f" {self.horse_power:,.0f} HP"
+            f"\n{lang_manager.get_text('required_torque')}"
+            f" {self.required_torque:,.0f} lb-ft"
+        )
+        
 
     def updateLanguage(self):
-
         self.title.setText(
-            lang_manager.get_text('cylinder')
+            lang_manager.get_text('pump')
         )
         self.calcButton.setText(
             lang_manager.get_text('calculate')
@@ -164,29 +163,14 @@ class Cylinder(SecondPanel):
         self.resetButton.setText(
             lang_manager.get_text('reset')
         )
-        self.boreInput.setPlaceholderText(
-            lang_manager.get_text('bore_hint')
+        self.displacementInput.setPlaceholderText(
+            lang_manager.get_text('displacement_hint')
         )
-        self.rodInput.setPlaceholderText(
-            lang_manager.get_text('rod_hint')
+        self.speedInput.setPlaceholderText(
+            lang_manager.get_text('speed_hint')
         )
         self.pressureInput.setPlaceholderText(
             lang_manager.get_text('pressure_hint')
         )
-
-    def check(self):
-        print(CYLINDER_VALUES)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
+        

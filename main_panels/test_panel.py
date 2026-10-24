@@ -2,19 +2,7 @@ from PySide6.QtCore import Qt
 from widgets.custom_widgets import BasePanel
 from settings.app_state import AppState
 from settings.languages import lang_manager
-from PySide6.QtWidgets import (
-    QMainWindow,
-    QApplication,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QLineEdit,
-    QPushButton,
-    QLabel,
-    QGridLayout,
-    QToolBar,
-    QFrame,
-)
+from PySide6.QtWidgets import QLabel, QGridLayout
 
 
 

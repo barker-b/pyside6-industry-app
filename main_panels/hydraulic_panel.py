@@ -1,22 +1,10 @@
 from PySide6.QtCore import Qt
-from cylinder import Cylinder
-from motor import Motor
-from pump import Pump
+from hydraulics.cylinder import Cylinder
+from hydraulics.motor import Motor
+from hydraulics.pump import Pump
 from widgets.custom_widgets import BasePanel
 from settings.languages import lang_manager
-from PySide6.QtWidgets import (
-    QMainWindow,
-    QApplication,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QLineEdit,
-    QPushButton,
-    QLabel,
-    QGridLayout,
-    QToolBar,
-    QFrame,
-)
+from PySide6.QtWidgets import QLabel, QGridLayout
 
 class HydraulicsPanel(BasePanel):
     def __init__(self):
@@ -37,21 +25,19 @@ class HydraulicsPanel(BasePanel):
             """
             font-size: 20px;
             font-weight: bold;
-            padding: 12px;
             """
         )
-
-
+        self.hydTitle.setMaximumHeight(50)
 
         
         hydraulicsLayout.addWidget(self.hydTitle, 0, 0, 1, 2)
-        hydraulicsLayout.addWidget(cylPanel, 1, 0)
+        hydraulicsLayout.addWidget(cylPanel, 1, 0, 2, 1)
         hydraulicsLayout.addWidget(motorPanel, 1, 1)
-        hydraulicsLayout.addWidget(pumpPanel, 2, 0)
-        hydraulicsLayout.addWidget(self.extraPanel, 2, 1)
+        hydraulicsLayout.addWidget(pumpPanel, 2, 1)
 
-        #hydraulicsLayout.setColumnStretch(0, 1)
-        #hydraulicsLayout.setColumnStretch(1, 1)
+
+        hydraulicsLayout.setColumnStretch(0, 1)
+        hydraulicsLayout.setColumnStretch(1, 1)
 
         self.setLayout(hydraulicsLayout)
 
