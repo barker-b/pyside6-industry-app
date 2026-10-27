@@ -1,3 +1,10 @@
+from PySide6.QtCore import QObject, Signal
+
+class GraphSignals(QObject):
+    force_changed = Signal(float)
+
+GRAPH_SIGNAL = GraphSignals()
+
 # Store Values from inputs
 
 CYLINDER_VALUES = {

@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
 from settings.languages import lang_manager
-from settings.values import CYLINDER_VALUES
+from settings.values import CYLINDER_VALUES, GRAPH_SIGNAL
 from calculator import CylFormula
 from .cylinder_graph import CylinderGraph
 from PySide6.QtWidgets import (
@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QLabel,
 )
-
 
 
 class Cylinder(SecondPanel):
@@ -112,6 +111,8 @@ class Cylinder(SecondPanel):
             CYLINDER_VALUES['pressure'] = pressure
             CYLINDER_VALUES['push_force'] = self.push
             CYLINDER_VALUES['pull_force'] = self.pull
+
+            GRAPH_SIGNAL.force_changed.emit(self.push)
 
             self.current_error = None
 
