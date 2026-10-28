@@ -154,6 +154,8 @@ class Cylinder(SecondPanel):
             f" {lang_manager.get_text('pounds')}"
         )
 
+        GRAPH_SIGNAL.force_changed.emit(self.push)
+
 
     def updateLanguage(self):
 

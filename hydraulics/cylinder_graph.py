@@ -18,8 +18,8 @@ class CylinderGraph(SecondPanel):
 
             self.cyl_graph = pg.PlotWidget()
             self.cyl_graph.setTitle("Force at angles")
-            self.cyl_graph.setLabel('left', 'Angle')
-            self.cyl_graph.setLabel('bottom', 'Push Force')
+            self.cyl_graph.setLabel('left', 'Push Force')
+            self.cyl_graph.setLabel('bottom', 'Angle')
 
 
             self.push_force = CYLINDER_VALUES['push_force']
@@ -35,20 +35,28 @@ class CylinderGraph(SecondPanel):
 
         def update_graph(self, new_force):
             self.push_force = new_force
+            self.cyl_graph.clear()
+
+            if new_force == 0:
+                self.cyl_graph.setXRange(0, 91)
+                self.cyl_graph.setYRange(0, 10000)
+                return
 
             x = []
             y = []
 
             for angle in range(10, 91, 10):
                 angle_force = new_force * math.sin(
-                        math.radians((angle))
+                        math.radians(angle)
                         )
                 y.append(angle_force)
                 x.append(angle)
 
 
+            self.cyl_graph.showGrid(x=True, y=True)
+            self.cyl_graph.setYRange(0, new_force)
+            self.cyl_graph.setXRange(0, 91)
             self.line = self.cyl_graph.plot(x, y)
-            self.line.setData(x, y)
 
             print(x)
             print(y)
