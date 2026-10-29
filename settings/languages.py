@@ -2,7 +2,7 @@
 
 SPANISH = {
     'greeting': 'Hola Mundo',
-    'hydraulics_feminine': 'Hidráulica',
+    'hydraulics': 'Hidráulica',
     'hydraulic_motor': 'Motor\nHidráulico',
     'cylinder': 'Cilindro',
     'motor': 'Motor',

@@ -30,14 +30,15 @@ class HydraulicsPanel(BasePanel):
         self.hydTitle.setMaximumHeight(50)
 
         
-        hydraulicsLayout.addWidget(self.hydTitle, 0, 0, 1, 2)
+        hydraulicsLayout.addWidget(self.hydTitle, 0, 0, 1, 3)
         hydraulicsLayout.addWidget(cylPanel, 1, 0, 2, 1)
-        hydraulicsLayout.addWidget(motorPanel, 1, 1)
-        hydraulicsLayout.addWidget(pumpPanel, 2, 1)
+        hydraulicsLayout.addWidget(motorPanel, 1, 1, 2, 1)
+        hydraulicsLayout.addWidget(pumpPanel, 1, 2, 2, 1)
 
 
         hydraulicsLayout.setColumnStretch(0, 1)
         hydraulicsLayout.setColumnStretch(1, 1)
+        hydraulicsLayout.setColumnStretch(2, 1)
 
         self.setLayout(hydraulicsLayout)
 

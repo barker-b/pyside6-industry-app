@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Indusrty Calculator")
-        self.resize(1000, 800)
+        self.resize(1400, 900)
 
         # Tool bar
         self.tool_bar = QToolBar("Tools")
