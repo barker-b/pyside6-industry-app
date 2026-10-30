@@ -1,12 +1,8 @@
 import sys
 from main_panels.hydraulic_panel import HydraulicsPanel
 from main_panels.electrical_panel import ElectricPanel
-from main_panels.test_panel import TestPanel
-from main_panels.angle_panel import AnglePanel
-from widgets.custom_widgets import DarkButton
+from main_panels.formulas import FormulaPanel
 from settings.app_state import AppState
-from hydraulics.motor import Motor
-from hydraulics.pump import Pump
 from PySide6.QtCore import Qt
 from settings.themes import THEMES
 from settings.languages import lang_manager
@@ -14,10 +10,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QApplication,
     QWidget,
-    QGridLayout,
     QToolBar,
-    QHBoxLayout,
-    QVBoxLayout,
     QStackedLayout,
 )
 from PySide6.QtGui import QAction
@@ -46,6 +39,12 @@ class MainWindow(QMainWindow):
         )      
         self.tool_bar.addAction(self.electricalAction)
 
+        self.formulaAction = QAction("Formulas", self)
+        self.formulaAction.triggered.connect(
+            lambda: self.stackLayout.setCurrentWidget(self.formulaPanel)
+        )
+        self.tool_bar.addAction(self.formulaAction)
+
         self.toggleThemeAction = QAction("Dark Theme", self)
         self.toggleThemeAction.triggered.connect(self.toggleTheme)
         self.tool_bar.addAction(self.toggleThemeAction)
@@ -70,9 +69,11 @@ class MainWindow(QMainWindow):
         # Pages
         self.hydraulicPanel = HydraulicsPanel()
         self.electricPanel = ElectricPanel()
+        self.formulaPanel = FormulaPanel()
 
         self.stackLayout.addWidget(self.hydraulicPanel)
         self.stackLayout.addWidget(self.electricPanel)
+        self.stackLayout.addWidget(self.formulaPanel)
 
     def hydraulicsTab(self):
         pass

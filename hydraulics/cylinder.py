@@ -57,7 +57,7 @@ class Cylinder(SecondPanel):
         mainLayout.addWidget(self.pressureInput)
         mainLayout.addWidget(self.output)
         mainLayout.addLayout(buttonLayout)
-        mainLayout.addWidget(self.graph)
+        mainLayout.addWidget(self.graph, 25)
 
         self.setLayout(mainLayout)
 
@@ -154,7 +154,6 @@ class Cylinder(SecondPanel):
             f" {lang_manager.get_text('pounds')}"
         )
 
-        GRAPH_SIGNAL.force_changed.emit(self.push)
 
 
     def updateLanguage(self):

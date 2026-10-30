@@ -39,7 +39,7 @@ SPANISH = {
 ENGLISH = {
     'greeting': 'Hello World',
     'hydraulics': 'Hydraulics',
-    'hydraulic_motor': 'Hydraulics\nMotor',
+    'hydraulic_motor': 'Hydraulic\nMotor',
     'hydraulic': 'Hydraulic',
     'cylinder': 'Cylinder',
     'motor': 'Motor',
@@ -71,10 +71,44 @@ ENGLISH = {
     'invalid_input': 'Please enter valid numbers.',
 }
 
+GERMAN = {
+    'greeting': 'Hallo Welt',
+    'hydraulics': 'Hydraulik',
+    'hydraulic_motor': 'Hydraulik-\nmotor',
+    'cylinder': 'Zylinder',
+    'motor': 'Motor',
+    'pump': 'Pumpe',
+    'coming_soon': 'Bereich in Entwicklung',
+    'angles_coming_soon': 'Winkel demnächst verfügbar',
+    'electrical': 'Elektrik',
+    'electrical_motor': 'Elektro-\nmotor',
+    'calculate': 'Berechnen',
+    'reset': 'Zurücksetzen',
+    'pounds': 'Pfund',
+    'push_force': 'Druckkraft',
+    'pull_force': 'Zugkraft',
+    'motor_torque': 'Motordrehmoment',
+    'motor_speed': 'Motordrehzahl',
+    'pump_flow': 'Pumpenvolumenstrom',
+    'horse_power': 'Pumpenleistung',
+    'required_torque': 'Erforderliches Drehmoment',
+    'bore_hint': 'Kolbendurchmesser (Zoll)',
+    'rod_hint': 'Kolbenstangendurchmesser (Zoll)',
+    'pressure_hint': 'Druck (PSI)',
+    'displacement_hint': 'Hubvolumen (CIR)',
+    'flow_hint': 'Volumenstrom (GPM)',
+    'speed_hint': 'Drehzahl (RPM)',
+    'rod_bore_error': 'Ungültig, die Kolbenstange darf nicht\n'
+                      'gleich groß oder größer als der Kolbendurchmesser sein.',
+    'negative_error': 'Ungültig, die Werte müssen\n'
+                      'positive Zahlen sein.',
+    'invalid_input': 'Bitte geben Sie gültige Zahlen ein.',
+}
 
 LANGUAGE = {
     'es': SPANISH,
     'en': ENGLISH,
+    'de': GERMAN,
 }
 
 from PySide6.QtCore import QObject, Signal
