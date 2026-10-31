@@ -43,7 +43,7 @@ class Cylinder(SecondPanel):
 
         self.graph = CylinderGraph()
 
-
+        
         # Button layout
         buttonLayout = QGridLayout()
         buttonLayout.addWidget(self.calcButton, 0, 0)
@@ -51,13 +51,20 @@ class Cylinder(SecondPanel):
         
         # Main screen layout
         mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.title)
-        mainLayout.addWidget(self.boreInput)
-        mainLayout.addWidget(self.rodInput)
-        mainLayout.addWidget(self.pressureInput)
-        mainLayout.addWidget(self.output)
-        mainLayout.addLayout(buttonLayout)
-        mainLayout.addWidget(self.graph, 25)
+
+        inputLayout = QVBoxLayout()
+        inputLayout.addWidget(self.title)
+        inputLayout.addWidget(self.boreInput)
+        inputLayout.addWidget(self.rodInput)
+        inputLayout.addWidget(self.pressureInput)
+        inputLayout.addWidget(self.output)
+        inputLayout.addLayout(buttonLayout)
+
+        graphLayout = QVBoxLayout()
+        graphLayout.addWidget(self.graph)
+
+        mainLayout.addLayout(inputLayout, 40)
+        mainLayout.addLayout(graphLayout, 60)
 
         self.setLayout(mainLayout)
 

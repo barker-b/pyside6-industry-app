@@ -17,15 +17,15 @@ class CylinderGraph(SecondPanel):
             super().__init__()
 
             self.cyl_graph = pg.PlotWidget()
-            self.cyl_graph.setTitle("Force at angles")
+            self.cyl_graph.setTitle('angle_force')
 
             self.x_axis = self.cyl_graph.getAxis('bottom')
-            self.x_axis.setLabel('Anlge')
+            self.x_axis.setLabel('graph_angle')
             self.x_axis.setTickSpacing(10, 10)
 
             self.y_axis = self.cyl_graph.getAxis('left')
             self.y_axis.setTickSpacing(2000, 2000)
-            self.y_axis.setLabel('Force (lbs)')
+            self.y_axis.setLabel('graph_force')
 
 
             self.push_force = CYLINDER_VALUES['push_force']
@@ -38,6 +38,12 @@ class CylinderGraph(SecondPanel):
             GRAPH_SIGNAL.force_changed.connect(self.update_graph)
 
             self.update_graph(self.push_force)
+
+            self.updateLanguage()
+
+            lang_manager.language_changed.connect(
+                self.updateLanguage
+            )
 
         def update_graph(self, new_force):
             self.push_force = new_force
@@ -66,5 +72,23 @@ class CylinderGraph(SecondPanel):
 
             print(x)
             print(y)
+
+        def updateLanguage(self):
+            self.cyl_graph.setTitle(
+                 lang_manager.get_text(
+                      'angle_force'
+                 )
+            )
+            self.y_axis.setLabel(
+                 lang_manager.get_text(
+                      'graph_force'
+                 )
+            )
+            self.x_axis.setLabel(
+                 lang_manager.get_text(
+                      'graph_angle'
+                 )
+            )
+
 
 

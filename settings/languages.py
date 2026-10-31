@@ -32,6 +32,9 @@ SPANISH = {
     'negative_error': 'Inválido, los valores deben ser\n'
                       'números positivos.',
     'invalid_input': 'Por favor ingrese números válidos.',
+    'angle_force': 'Fuerza con inclinación',
+    'graph_force': 'Fuerza (lbs)',
+    'graph_angle': 'Ángulos',
 
 
 }
@@ -69,6 +72,9 @@ ENGLISH = {
     'negative_error': 'Invalid, inputs must be\n'
                       'positive numbers.',
     'invalid_input': 'Please enter valid numbers.',
+    'angle_force': 'Force at angles',
+    'graph_force': 'Force (lbs)',
+    'graph_angle': 'Angles',
 }
 
 GERMAN = {
