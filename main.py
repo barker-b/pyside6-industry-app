@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QWidget,
     QToolBar,
     QStackedLayout,
+    QComboBox,
 )
 from PySide6.QtGui import QAction
 
@@ -45,6 +46,7 @@ class MainWindow(QMainWindow):
         )
         self.tool_bar.addAction(self.formulaAction)
 
+
         self.toggleThemeAction = QAction("Dark Theme", self)
         self.toggleThemeAction.triggered.connect(self.toggleTheme)
         self.tool_bar.addAction(self.toggleThemeAction)
@@ -57,6 +59,9 @@ class MainWindow(QMainWindow):
         self.toggleLanguageAction.triggered.connect(self.toggleLanguage)
         self.tool_bar.addAction(self.toggleLanguageAction)
 
+        self.testDropbox = QComboBox()
+        self.testDropbox.addItems(['Light', 'Night', 'Blue'])
+        self.tool_bar.addWidget(self.testDropbox)
 
         # Central widget
         central_widget = QWidget()

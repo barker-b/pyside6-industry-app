@@ -1,10 +1,10 @@
 import math
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont
 import pyqtgraph as pg
 from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
 from settings.languages import lang_manager
 from settings.values import CYLINDER_VALUES, GRAPH_SIGNAL
-from calculator import CylFormula
 from PySide6.QtWidgets import (
     QVBoxLayout,
     QGridLayout,
@@ -17,15 +17,21 @@ class CylinderGraph(SecondPanel):
             super().__init__()
 
             self.cyl_graph = pg.PlotWidget()
-            self.cyl_graph.setTitle('angle_force')
+            self.cyl_graph.setTitle('angle_force', size='15pt')
+
+
+            self.graphFont = QFont()
+            self.graphFont.setPointSize(15)
 
             self.x_axis = self.cyl_graph.getAxis('bottom')
             self.x_axis.setLabel('graph_angle')
             self.x_axis.setTickSpacing(10, 10)
+            self.x_axis.label.setFont(self.graphFont)
 
             self.y_axis = self.cyl_graph.getAxis('left')
             self.y_axis.setTickSpacing(2000, 2000)
             self.y_axis.setLabel('graph_force')
+            self.y_axis.label.setFont(self.graphFont)
 
 
             self.push_force = CYLINDER_VALUES['push_force']

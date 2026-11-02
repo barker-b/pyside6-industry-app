@@ -3,7 +3,7 @@ from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
 from settings.languages import lang_manager
 from settings.values import CYLINDER_VALUES, GRAPH_SIGNAL
 from calculator import CylFormula
-from .cylinder_graph import CylinderGraph
+from graphs.cylinder_graph import CylinderGraph
 from PySide6.QtWidgets import (
     QVBoxLayout,
     QGridLayout,

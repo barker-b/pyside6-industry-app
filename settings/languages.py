@@ -35,6 +35,7 @@ SPANISH = {
     'angle_force': 'Fuerza con inclinación',
     'graph_force': 'Fuerza (lbs)',
     'graph_angle': 'Ángulos',
+    'fromula': 'Fórmulas',
 
 
 }
@@ -75,6 +76,7 @@ ENGLISH = {
     'angle_force': 'Force at angles',
     'graph_force': 'Force (lbs)',
     'graph_angle': 'Angles',
+    'formual': 'Formulas',
 }
 
 GERMAN = {
