@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
 
         # Tool bar
         self.tool_bar = QToolBar("Tools")
-        self.tool_bar.setMovable(False)
+        self.tool_bar.setMovable(True)
         self.addToolBar(self.tool_bar)
 
         self.hydraulicsAction = QAction("Hydraulics", self)
@@ -61,7 +61,12 @@ class MainWindow(QMainWindow):
 
         self.testDropbox = QComboBox()
         self.testDropbox.addItems(['Light', 'Night', 'Blue'])
+
+        self.testDropbox.setPlaceholderText('Themes')
+        self.testDropbox.setCurrentIndex(-1)
+
         self.tool_bar.addWidget(self.testDropbox)
+        self.testDropbox.currentTextChanged.connect(self.changeTheme)
 
         # Central widget
         central_widget = QWidget()
@@ -80,8 +85,17 @@ class MainWindow(QMainWindow):
         self.stackLayout.addWidget(self.electricPanel)
         self.stackLayout.addWidget(self.formulaPanel)
 
-    def hydraulicsTab(self):
-        pass
+
+    def changeTheme(self, theme):
+        if theme == 'Light':
+            AppState.theme = 'light'
+            QApplication.instance().setStyleSheet(THEMES[AppState.theme])
+
+        if theme == 'Night':
+            AppState.theme = 'dark'
+            QApplication.instance().setStyleSheet(THEMES[AppState.theme])
+
+        print(theme)
 
     def toggleTheme(self):
         if AppState.theme == "light":

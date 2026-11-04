@@ -16,6 +16,8 @@ class CylFormula():
         return self.pressure * self.piston_area()
 
     def cyl_ret_force(self):
+        if self.rod == 0:
+            return 0
         return self.pressure * self.annulus()
 
 class MotorFormula():

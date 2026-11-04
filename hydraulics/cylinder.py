@@ -36,6 +36,11 @@ class Cylinder(SecondPanel):
         self.output = QLabel()
         self.output.setAlignment(Qt.AlignCenter)
         self.output.setMinimumHeight(40)
+        self.output.setStyleSheet(
+            """
+            font-size: 20px;
+            """
+        )
 
         # Buttons
         self.calcButton = DarkButton()
@@ -155,9 +160,9 @@ class Cylinder(SecondPanel):
             return
         
         self.output.setText(
-            f"{lang_manager.get_text('push_force')} {self.push:,.0f} "
+            f"{lang_manager.get_text('push_force')} {self.push:,.0f}"
             f" {lang_manager.get_text('pounds')}\n"
-            f"{lang_manager.get_text('pull_force')} {self.pull:,.0f} "
+            f"{lang_manager.get_text('pull_force')} {self.pull:,.0f}"
             f" {lang_manager.get_text('pounds')}"
         )
 
