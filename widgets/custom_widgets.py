@@ -8,11 +8,11 @@ class SecondPanel(QFrame):
     def __init__(self):
         super().__init__()
 
-class DarkInput(QLineEdit):
+class ThemedInput(QLineEdit):
     def __init__(self):
         super().__init__()
 
-class DarkButton(QPushButton):
+class ThemedButton(QPushButton):
     def __init__(self):
         super().__init__()
 

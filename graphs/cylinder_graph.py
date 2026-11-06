@@ -2,7 +2,7 @@ import math
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 import pyqtgraph as pg
-from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
+from widgets.custom_widgets import SecondPanel, ThemedInput, ThemedButton
 from settings.languages import lang_manager
 from settings.values import CYLINDER_VALUES, GRAPH_SIGNAL
 from PySide6.QtWidgets import (

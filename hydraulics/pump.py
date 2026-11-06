@@ -1,6 +1,6 @@
 import sys
 from PySide6.QtCore import Qt
-from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
+from widgets.custom_widgets import SecondPanel, ThemedInput, ThemedButton
 from settings.languages import lang_manager
 from settings.values import PUMP_VALUES
 from PySide6.QtWidgets import (
@@ -21,9 +21,9 @@ class Pump(SecondPanel):
         self.setFrameShadow(QFrame.Raised)        
 
         # Input Boxes
-        self.displacementInput = DarkInput()
-        self.speedInput = DarkInput()
-        self.pressureInput = DarkInput()
+        self.displacementInput = ThemedInput()
+        self.speedInput = ThemedInput()
+        self.pressureInput = ThemedInput()
 
         # Labels
         self.title = QLabel()
@@ -41,8 +41,8 @@ class Pump(SecondPanel):
         self.output.setMinimumHeight(40)
         
         # Buttons
-        self.calcButton = DarkButton()
-        self.resetButton = DarkButton()
+        self.calcButton = ThemedButton()
+        self.resetButton = ThemedButton()
 
         # Button layout
         buttonLayout = QGridLayout()

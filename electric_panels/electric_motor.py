@@ -1,6 +1,6 @@
 import sys
 from PySide6.QtCore import Qt
-from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
+from widgets.custom_widgets import SecondPanel, ThemedInput, ThemedButton
 from settings.languages import lang_manager
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -19,9 +19,9 @@ class ElectricMotor(SecondPanel):
     def __init__(self):
         super().__init__()
 
-        self.voltageInput = DarkInput()
-        self.ampsInput = DarkInput()
-        self.phaseInput = DarkInput()
+        self.voltageInput = ThemedInput()
+        self.ampsInput = ThemedInput()
+        self.phaseInput = ThemedInput()
 
 
         self.title = QLabel()

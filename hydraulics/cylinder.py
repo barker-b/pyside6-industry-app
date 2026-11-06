@@ -1,5 +1,5 @@
 from PySide6.QtCore import Qt
-from widgets.custom_widgets import SecondPanel, DarkInput, DarkButton
+from widgets.custom_widgets import SecondPanel, ThemedInput, ThemedButton
 from settings.languages import lang_manager
 from settings.values import CYLINDER_VALUES, GRAPH_SIGNAL
 from calculator import CylFormula
@@ -17,9 +17,9 @@ class Cylinder(SecondPanel):
 
 
         # Input Boxes
-        self.boreInput = DarkInput()
-        self.rodInput = DarkInput()
-        self.pressureInput = DarkInput()
+        self.boreInput = ThemedInput()
+        self.rodInput = ThemedInput()
+        self.pressureInput = ThemedInput()
 
 
         # Labels
@@ -43,8 +43,8 @@ class Cylinder(SecondPanel):
         )
 
         # Buttons
-        self.calcButton = DarkButton()
-        self.resetButton = DarkButton()
+        self.calcButton = ThemedButton()
+        self.resetButton = ThemedButton()
 
         self.graph = CylinderGraph()
 

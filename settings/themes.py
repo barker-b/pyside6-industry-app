@@ -4,10 +4,6 @@ QMainWindow {
     background-color: #2A2A2A;
     }
 
-QWidget#central {
-    background-color: #1E1E1E;
-    }
-
 BasePanel {
     border: 2px solid #B3B4BA;
     background-color: #1E1E1E;
@@ -20,10 +16,10 @@ SecondPanel {
     background-color: #2A2A2A;
     border-radius: 6px;
 }
-DarkInput { background-color: #1E1E1E;
+ThemedInput { background-color: #1E1E1E;
 }
 
-DarkButton { background-color: #1E1E1E;
+ThemedButton { background-color: #1E1E1E;
 }
 
 * {
@@ -31,8 +27,14 @@ DarkButton { background-color: #1E1E1E;
     }
 """
 
-LILGHT_THEME = """
+LIGHT_THEME = """
+
+QMainWindow {
+    background-color: #FFFFFF;
+    }
+
 BasePanel {
+    background-color: #F3F3F3;
     border: 2px solid #2A2A2A;
     border-radius: 6px;
     padding: 12px;
@@ -43,8 +45,21 @@ SecondPanel {
     border: .5px solid #2A2A2A;
     border-radius: 12px;
     }
+ThemedButton { background-color: #F3F3F3;
+}
+
+ThemedInput { background-color: #F3F3F3;
+}
+
+* {
+    color: #000000;
+    }
 """
+BLUE_THEME = """
+"""
+
 THEMES = {
-    "light": LILGHT_THEME,
-    "dark": DARK_THEME
+    "light": LIGHT_THEME,
+    "dark": DARK_THEME,
+    "blue": BLUE_THEME,
 }
