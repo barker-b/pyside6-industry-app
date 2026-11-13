@@ -25,6 +25,9 @@ ThemedButton { background-color: #1E1E1E;
 * {
     color: #E0E0E0;
     }
+QMenu {
+    background-color: #1E1E1E;
+    }
 """
 
 LIGHT_THEME = """
@@ -51,11 +54,40 @@ ThemedButton { background-color: #F3F3F3;
 ThemedInput { background-color: #F3F3F3;
 }
 
+QMenu { background-color: #F3F3F3;}
+
 * {
     color: #000000;
     }
 """
 BLUE_THEME = """
+
+QMainWindow {
+    background-color: #40162540;
+    }
+
+BasePanel {
+    background-color: #262E38;
+    border: 2px solid #2A2A2A;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+SecondPanel {
+    background-color: #1F242E;
+    border: .5px solid #2A2A2A;
+    border-radius: 12px;
+    }
+ThemedButton { background-color: #F3F3F3;
+}
+
+ThemedInput { background-color: #F3F3F3;
+}
+
+* {
+    color: #C5CBD6;
+    }
+
 """
 
 THEMES = {

@@ -13,6 +13,8 @@ from PySide6.QtWidgets import (
     QToolBar,
     QStackedLayout,
     QComboBox,
+    QToolButton,
+    QMenu,
 )
 from PySide6.QtGui import QAction
 
@@ -23,12 +25,38 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Indusrty Calculator")
         self.resize(1400, 900)
 
+        # Menu Bar
+        self.menu_bar = self.menuBar()
+
+        file_menu = self.menu_bar.addMenu("&File")
+
+        theme_menu = self.menu_bar.addMenu("&Themes")
+
+
+        self.light_action = QAction(self)
+        self.light_action.triggered.connect(
+            lambda: self.setTheme('light')
+        )
+        self.dark_action = QAction("Dark", self)
+        self.dark_action.triggered.connect(
+            lambda: self.setTheme('dark')
+        )
+        self.blue_action = QAction("Blue", self)
+        self.blue_action.triggered.connect(
+            lambda: self.setTheme('blue')
+        )
+
+        themes = [self.light_action, self.dark_action, self.blue_action]
+
+        for theme in themes:
+            theme_menu.addAction(theme)
+
         # Tool bar
         self.tool_bar = QToolBar("Tools")
         self.tool_bar.setMovable(True)
         self.addToolBar(self.tool_bar)
 
-        self.hydraulicsAction = QAction("Hydraulics", self)
+        self.hydraulicsAction = QAction(self)
         self.hydraulicsAction.triggered.connect(
             lambda: self.stackLayout.setCurrentWidget(self.hydraulicPanel)
         )
@@ -40,16 +68,11 @@ class MainWindow(QMainWindow):
         )      
         self.tool_bar.addAction(self.electricalAction)
 
-        self.formulaAction = QAction("Formulas", self)
+        self.formulaAction = QAction("Formulas", self,)
         self.formulaAction.triggered.connect(
             lambda: self.stackLayout.setCurrentWidget(self.formulaPanel)
         )
         self.tool_bar.addAction(self.formulaAction)
-
-
-        self.toggleThemeAction = QAction("Dark Theme", self)
-        self.toggleThemeAction.triggered.connect(self.toggleTheme)
-        self.tool_bar.addAction(self.toggleThemeAction)
 
         self.toggleUnitsAction = QAction("Metric", self)
         self.toggleUnitsAction.triggered.connect(self.toggleUnits)
@@ -58,15 +81,6 @@ class MainWindow(QMainWindow):
         self.toggleLanguageAction = QAction("Spanish", self)
         self.toggleLanguageAction.triggered.connect(self.toggleLanguage)
         self.tool_bar.addAction(self.toggleLanguageAction)
-
-        self.testDropbox = QComboBox()
-        self.testDropbox.addItems(['Light', 'Night', 'Blue'])
-
-        self.testDropbox.setPlaceholderText('Themes')
-        self.testDropbox.setCurrentIndex(-1)
-
-        self.tool_bar.addWidget(self.testDropbox)
-        self.testDropbox.currentTextChanged.connect(self.changeTheme)
 
         # Central widget
         central_widget = QWidget()
@@ -85,29 +99,16 @@ class MainWindow(QMainWindow):
         self.stackLayout.addWidget(self.electricPanel)
         self.stackLayout.addWidget(self.formulaPanel)
 
+        self.updateLanguage()
 
-    def changeTheme(self, theme):
-        if theme == 'Light':
-            AppState.theme = 'light'
-            QApplication.instance().setStyleSheet(THEMES[AppState.theme])
+        lang_manager.language_changed.connect(
+            self.updateLanguage
+        )
 
-        if theme == 'Night':
-            AppState.theme = 'dark'
-            QApplication.instance().setStyleSheet(THEMES[AppState.theme])
+    def setTheme(self, theme):
+        AppState.theme = theme
+        QApplication.instance().setStyleSheet(THEMES[theme])
 
-        print(theme)
-
-    def toggleTheme(self):
-        if AppState.theme == "light":
-            AppState.theme = "dark"
-            QApplication.instance().setStyleSheet(THEMES[AppState.theme])
-            self.toggleThemeAction.setText("Light Theme")
-
-
-        else:
-            AppState.theme = "light"
-            QApplication.instance().setStyleSheet(THEMES[AppState.theme])
-            self.toggleThemeAction.setText("Dark Theme")
 
     def toggleUnits(self):
         pass
@@ -115,20 +116,49 @@ class MainWindow(QMainWindow):
     def toggleLanguage(self):
         if AppState.language == "en":
             AppState.language = "es"
-
             lang_manager.set_language('es')
-
-            self.toggleLanguageAction.setText("Inglés")
 
         else:
             AppState.language = "en"
-
             lang_manager.set_language('en')
 
-            self.toggleLanguageAction.setText("Spanish")
+
 
             
         print(AppState.language)
+
+    
+
+    def updateLanguage(self):
+        self.light_action.setText(
+            lang_manager.get_text('light')
+        )
+        self.dark_action.setText(
+            lang_manager.get_text('dark')
+        )
+        self.blue_action.setText(
+            lang_manager.get_text('blue')
+        )
+        self.hydraulicsAction.setText(
+            lang_manager.get_text('hydraulics')
+        )
+        self.electricalAction.setText(
+            lang_manager.get_text('electrical')
+        )
+        self.formulaAction.setText(
+            lang_manager.get_text('formulas')
+        )
+        self.toggleUnitsAction.setText(
+            lang_manager.get_text('metric')
+        )
+        if AppState.language == 'en':
+            self.toggleLanguageAction.setText(
+                lang_manager.get_text('spanish')
+            )
+        else:
+            self.toggleLanguageAction.setText(
+                lang_manager.get_text('english')
+            )
 
 
 

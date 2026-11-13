@@ -23,7 +23,7 @@ class HydraulicsPanel(BasePanel):
         self.hydTitle.setAlignment(Qt.AlignCenter)
         self.hydTitle.setStyleSheet(
             """
-            font-size: 20px;
+            font-size: 40px;
             font-weight: bold;
             """
         )

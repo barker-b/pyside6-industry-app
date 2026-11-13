@@ -36,6 +36,12 @@ SPANISH = {
     'graph_force': 'Fuerza (lbs)',
     'graph_angle': 'Ángulos',
     'formulas': 'Fórmulas',
+    'light': 'Claro',
+    'dark': 'Oscuro',
+    'blue': 'Azul',
+    'metric': 'Métrico',
+    'english': 'Inglés',
+    'spanish': 'Español'
 
 
 }
@@ -77,6 +83,12 @@ ENGLISH = {
     'graph_force': 'Force (lbs)',
     'graph_angle': 'Angles',
     'formulas': 'Formulas',
+    'light': 'Light',
+    'dark': 'Dark',
+    'blue': 'Blue',
+    'metric': 'Metric',
+    'english': 'English',
+    'spanish': 'Spanish'
 }
 
 GERMAN = {
@@ -111,6 +123,17 @@ GERMAN = {
     'negative_error': 'Ungültig, die Werte müssen\n'
                       'positive Zahlen sein.',
     'invalid_input': 'Bitte geben Sie gültige Zahlen ein.',
+    'angle_force': 'Kraft bei Neigung',
+    'graph_force': 'Kraft (lbs)',
+    'graph_angle': 'Winkel',
+    'formulas': 'Formeln',
+    'light': 'Hell',
+    'dark': 'Dunkel',
+    'blue': 'Blau',
+    'metric': 'Metrisch',
+    'english': 'Englisch',
+    'spanish': 'Spanisch',
+    'german': 'Deutsch',
 }
 
 LANGUAGE = {
