@@ -25,23 +25,41 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Indusrty Calculator")
         self.resize(1400, 900)
 
+
+
         # Menu Bar
         self.menu_bar = self.menuBar()
 
-        file_menu = self.menu_bar.addMenu("&File")
+        self.file_menu = self.menu_bar.addMenu("&File")
+        self.language_menu = self.menu_bar.addMenu("&Language")
+        self.theme_menu = self.menu_bar.addMenu("&Themes")
+        self.unit_menu = self.menu_bar.addMenu("&Units")
 
-        theme_menu = self.menu_bar.addMenu("&Themes")
+        # Language actions
 
-
+        self.english_action = QAction()
+        self.english_action.triggered.connect(
+            lambda: self.set_language('en')
+        )
+        self.spanish_action = QAction()
+        self.spanish_action.triggered.connect(
+            lambda: self.set_language('es')
+        )
+        self.german_action = QAction()
+        self.german_action.triggered.connect(
+            lambda: self.set_language('de')
+        )
+        
+        # Theme actions
         self.light_action = QAction(self)
         self.light_action.triggered.connect(
             lambda: self.setTheme('light')
         )
-        self.dark_action = QAction("Dark", self)
+        self.dark_action = QAction(self)
         self.dark_action.triggered.connect(
             lambda: self.setTheme('dark')
         )
-        self.blue_action = QAction("Blue", self)
+        self.blue_action = QAction(self)
         self.blue_action.triggered.connect(
             lambda: self.setTheme('blue')
         )
@@ -49,7 +67,16 @@ class MainWindow(QMainWindow):
         themes = [self.light_action, self.dark_action, self.blue_action]
 
         for theme in themes:
-            theme_menu.addAction(theme)
+            self.theme_menu.addAction(theme)
+
+        languages = [
+            self.english_action,
+            self.spanish_action,
+            self.german_action
+            ]
+
+        for language in languages:
+            self.language_menu.addAction(language)
 
         # Tool bar
         self.tool_bar = QToolBar("Tools")
@@ -78,10 +105,6 @@ class MainWindow(QMainWindow):
         self.toggleUnitsAction.triggered.connect(self.toggleUnits)
         self.tool_bar.addAction(self.toggleUnitsAction)
 
-        self.toggleLanguageAction = QAction("Spanish", self)
-        self.toggleLanguageAction.triggered.connect(self.toggleLanguage)
-        self.tool_bar.addAction(self.toggleLanguageAction)
-
         # Central widget
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -109,27 +132,25 @@ class MainWindow(QMainWindow):
         AppState.theme = theme
         QApplication.instance().setStyleSheet(THEMES[theme])
 
+    def set_language(self, language):
+        AppState.language = language
+        lang_manager.set_language(language)
+
 
     def toggleUnits(self):
         pass
 
-    def toggleLanguage(self):
-        if AppState.language == "en":
-            AppState.language = "es"
-            lang_manager.set_language('es')
-
-        else:
-            AppState.language = "en"
-            lang_manager.set_language('en')
-
-
-
-            
-        print(AppState.language)
-
-    
 
     def updateLanguage(self):
+        self.file_menu.setTitle(
+            lang_manager.get_text('file')
+        )
+        self.language_menu.setTitle(
+            lang_manager.get_text('language')
+        )
+        self.theme_menu.setTitle(
+            lang_manager.get_text('theme')
+        )
         self.light_action.setText(
             lang_manager.get_text('light')
         )
@@ -148,18 +169,15 @@ class MainWindow(QMainWindow):
         self.formulaAction.setText(
             lang_manager.get_text('formulas')
         )
-        self.toggleUnitsAction.setText(
-            lang_manager.get_text('metric')
+        self.english_action.setText(
+            lang_manager.get_text('english')
         )
-        if AppState.language == 'en':
-            self.toggleLanguageAction.setText(
-                lang_manager.get_text('spanish')
-            )
-        else:
-            self.toggleLanguageAction.setText(
-                lang_manager.get_text('english')
-            )
-
+        self.spanish_action.setText(
+            lang_manager.get_text('spanish')
+        )
+        self.german_action.setText(
+            lang_manager.get_text('german')
+        )
 
 
 if __name__ == "__main__":

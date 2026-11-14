@@ -27,18 +27,24 @@ class Motor(SecondPanel):
 
         # Labels
         self.title = QLabel()
-        self.output = QLabel()
-        self.output.setAlignment(Qt.AlignCenter)
-        self.output.setMinimumHeight(40)
-
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet("""
             QLabel {
-                font-size: 20px;
+                font-size: 30px;
                 font-weight: bold;
                 padding: 6px
                 }
         """)
+
+        self.output = QLabel()
+        self.output.setAlignment(Qt.AlignCenter)
+        self.output.setMinimumHeight(40)
+        self.output.setStyleSheet("""
+            QLabel {
+                font-size: 20px;
+                }
+            """)
+
 
         # Buttons
         self.calcButton = ThemedButton()

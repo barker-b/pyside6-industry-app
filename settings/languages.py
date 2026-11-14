@@ -41,7 +41,11 @@ SPANISH = {
     'blue': 'Azul',
     'metric': 'Métrico',
     'english': 'Inglés',
-    'spanish': 'Español'
+    'spanish': 'Español',
+    'german': 'Alemán',
+    'theme': 'Tema',
+    'file': 'Archivo',
+    'language': 'Idioma',
 
 
 }
@@ -88,13 +92,17 @@ ENGLISH = {
     'blue': 'Blue',
     'metric': 'Metric',
     'english': 'English',
-    'spanish': 'Spanish'
+    'spanish': 'Spanish',
+    'german': 'German',
+    'theme': 'Theme',
+    'file': 'File',
+    'language': 'Language',
 }
 
 GERMAN = {
     'greeting': 'Hallo Welt',
     'hydraulics': 'Hydraulik',
-    'hydraulic_motor': 'Hydraulik-\nmotor',
+    'hydraulic_motor': 'Hydraulik\nMotor',
     'cylinder': 'Zylinder',
     'motor': 'Motor',
     'pump': 'Pumpe',
@@ -134,6 +142,9 @@ GERMAN = {
     'english': 'Englisch',
     'spanish': 'Spanisch',
     'german': 'Deutsch',
+    'theme': 'Farbschema',
+    'file': 'Datei',
+    'language': 'Sprache',
 }
 
 LANGUAGE = {
