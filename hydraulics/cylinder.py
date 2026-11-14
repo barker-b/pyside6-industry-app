@@ -124,7 +124,8 @@ class Cylinder(SecondPanel):
             CYLINDER_VALUES['push_force'] = self.push
             CYLINDER_VALUES['pull_force'] = self.pull
 
-            GRAPH_SIGNAL.force_changed.emit(self.push)
+            GRAPH_SIGNAL.force_changed.emit(self.push, self.pull)
+
 
             self.current_error = None
 
@@ -145,6 +146,8 @@ class Cylinder(SecondPanel):
         self.push = 0
         self.pull = 0
         self.current_error = None
+
+        GRAPH_SIGNAL.force_changed.emit(self.push, self.pull)
 
         self.updateLanguage()
         self.updateOutputs()

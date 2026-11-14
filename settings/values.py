@@ -1,7 +1,7 @@
 from PySide6.QtCore import QObject, Signal
 
 class GraphSignals(QObject):
-    force_changed = Signal(float)
+    force_changed = Signal(float, float)
 
 GRAPH_SIGNAL = GraphSignals()
 

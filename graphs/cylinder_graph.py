@@ -33,8 +33,11 @@ class CylinderGraph(SecondPanel):
             self.y_axis.setLabel('graph_force')
             self.y_axis.label.setFont(self.graphFont)
 
+            self.cyl_graph.addLegend()
 
             self.push_force = CYLINDER_VALUES['push_force']
+            self.pull_force = CYLINDER_VALUES['pull_force']
+          
 
             layout = QVBoxLayout()
             layout.addWidget(self.cyl_graph)
@@ -43,41 +46,65 @@ class CylinderGraph(SecondPanel):
 
             GRAPH_SIGNAL.force_changed.connect(self.update_graph)
 
-            self.update_graph(self.push_force)
-
+            self.update_graph(self.push_force, self.pull_force,)
+            
             self.updateLanguage()
 
             lang_manager.language_changed.connect(
                 self.updateLanguage
             )
 
-        def update_graph(self, new_force):
-            self.push_force = new_force
-            self.cyl_graph.clear()
 
-            if new_force == 0:
+
+        def update_graph(self, new_push_force, new_pull_force):
+            self.push_force = new_push_force
+            self.pull_force = new_pull_force
+            self.cyl_graph.clear()
+            print('so far so good')
+
+            if new_push_force == 0:
                 self.cyl_graph.setXRange(0, 91)
                 self.cyl_graph.setYRange(0, 10000)
                 return
 
-            x = []
-            y = []
+            x_push = []
+            y_push = []
+            x_pull = []
+            y_pull = []
 
             for angle in range(10, 91, 10):
-                angle_force = new_force * math.sin(
-                        math.radians(angle)
-                        )
-                y.append(angle_force)
-                x.append(angle)
+                angle_force = new_push_force * math.sin(
+                    math.radians(angle)
+                )
+                y_push.append(angle_force)
+                x_push.append(angle)
 
+            for angle in range(10, 91, 10):
+                angle_force = new_pull_force * math.sin(
+                    math.radians(angle)
+                )
+                y_pull.append(angle_force)
+                x_pull.append(angle)
 
             self.cyl_graph.showGrid(x=True, y=True)
-            self.cyl_graph.setYRange(0, new_force,)
+            self.cyl_graph.setYRange(0, new_push_force,)
             self.cyl_graph.setXRange(0, 91)
-            self.line = self.cyl_graph.plot(x, y)
+            self.push_line = self.cyl_graph.plot(
+                x_push,
+                y_push,
+                name=lang_manager.get_text('push_force'),
+                pen='r'
+                )
+            self.pull_line = self.cyl_graph.plot(
+                x_pull,
+                y_pull,
+                name=lang_manager.get_text('pull_force'),
+                pen='b'
+                )
 
-            print(x)
-            print(y)
+            print(x_push)
+            print(y_push)
+
 
         def updateLanguage(self):
             self.cyl_graph.setTitle(

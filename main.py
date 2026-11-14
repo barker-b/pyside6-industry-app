@@ -36,19 +36,32 @@ class MainWindow(QMainWindow):
         self.unit_menu = self.menu_bar.addMenu("&Units")
 
         # Language actions
-
-        self.english_action = QAction()
+        self.english_action = QAction(self)
         self.english_action.triggered.connect(
             lambda: self.set_language('en')
         )
-        self.spanish_action = QAction()
+        self.spanish_action = QAction(self)
         self.spanish_action.triggered.connect(
             lambda: self.set_language('es')
         )
-        self.german_action = QAction()
+        self.german_action = QAction(self)
         self.german_action.triggered.connect(
             lambda: self.set_language('de')
         )
+        self.russian_action = QAction(self)
+        self.russian_action.triggered.connect(
+            lambda: self.set_language('ru')
+        )
+        self.chinese_action = QAction(self)
+        self.chinese_action.triggered.connect(
+            lambda: self.set_language('zh-Hans')
+        )
+
+        self.language_menu.addAction(self.english_action)
+        self.language_menu.addAction(self.spanish_action)
+        self.language_menu.addAction(self.german_action)
+        self.language_menu.addAction(self.russian_action)
+        self.language_menu.addAction(self.chinese_action)
         
         # Theme actions
         self.light_action = QAction(self)
@@ -64,19 +77,17 @@ class MainWindow(QMainWindow):
             lambda: self.setTheme('blue')
         )
 
-        themes = [self.light_action, self.dark_action, self.blue_action]
+        self.theme_menu.addAction(self.light_action)
+        self.theme_menu.addAction(self.dark_action)
+        self.theme_menu.addAction(self.blue_action)
 
-        for theme in themes:
-            self.theme_menu.addAction(theme)
+        # Unit actions
+        self.standard_action = QAction("Dumb", self)
+        self.metric_action = QAction("Metric", self)
 
-        languages = [
-            self.english_action,
-            self.spanish_action,
-            self.german_action
-            ]
-
-        for language in languages:
-            self.language_menu.addAction(language)
+        self.unit_menu.addAction(self.standard_action)
+        self.unit_menu.addAction(self.metric_action)
+        
 
         # Tool bar
         self.tool_bar = QToolBar("Tools")
@@ -100,10 +111,6 @@ class MainWindow(QMainWindow):
             lambda: self.stackLayout.setCurrentWidget(self.formulaPanel)
         )
         self.tool_bar.addAction(self.formulaAction)
-
-        self.toggleUnitsAction = QAction("Metric", self)
-        self.toggleUnitsAction.triggered.connect(self.toggleUnits)
-        self.tool_bar.addAction(self.toggleUnitsAction)
 
         # Central widget
         central_widget = QWidget()
@@ -137,10 +144,14 @@ class MainWindow(QMainWindow):
         lang_manager.set_language(language)
 
 
-    def toggleUnits(self):
+    def set_units(self):
         pass
 
 
+    menus = {}
+
+    actions = {}
+    
     def updateLanguage(self):
         self.file_menu.setTitle(
             lang_manager.get_text('file')
@@ -150,6 +161,30 @@ class MainWindow(QMainWindow):
         )
         self.theme_menu.setTitle(
             lang_manager.get_text('theme')
+        )
+        self.unit_menu.setTitle(
+            lang_manager.get_text('units')
+        )
+        self.english_action.setText(
+            lang_manager.get_text('english')
+        )
+        self.spanish_action.setText(
+            lang_manager.get_text('spanish')
+        )
+        self.german_action.setText(
+            lang_manager.get_text('german')
+        )
+        self.russian_action.setText(
+            lang_manager.get_text('russian')
+        )
+        self.chinese_action.setText(
+            lang_manager.get_text('chinese')
+        )
+        self.standard_action.setText(
+            lang_manager.get_text('dumb')
+        )
+        self.metric_action.setText(
+            lang_manager.get_text('metric')
         )
         self.light_action.setText(
             lang_manager.get_text('light')
@@ -168,15 +203,6 @@ class MainWindow(QMainWindow):
         )
         self.formulaAction.setText(
             lang_manager.get_text('formulas')
-        )
-        self.english_action.setText(
-            lang_manager.get_text('english')
-        )
-        self.spanish_action.setText(
-            lang_manager.get_text('spanish')
-        )
-        self.german_action.setText(
-            lang_manager.get_text('german')
         )
 
 
