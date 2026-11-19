@@ -30,7 +30,7 @@ class Pump(SecondPanel):
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet("""
             QLabel {
-                font-size: 20px;
+                font-size: 30px;
                 font-weight: bold;
                 padding: 6px;
                 }
@@ -39,6 +39,19 @@ class Pump(SecondPanel):
         self.output = QLabel()
         self.output.setAlignment(Qt.AlignCenter)
         self.output.setMinimumHeight(40)
+        self.output.setStyleSheet("""
+            QLabel {
+                font-size: 20px;
+                }
+        """)
+
+        # Inputs
+        self.inputLayout = QVBoxLayout()
+        self.inputLayout.setContentsMargins(50, 0, 50, 0)
+        self.inputLayout.addWidget(self.displacementInput)
+        self.inputLayout.addWidget(self.speedInput)
+        self.inputLayout.addWidget(self.pressureInput)
+        
         
         # Buttons
         self.calcButton = ThemedButton()
@@ -46,15 +59,14 @@ class Pump(SecondPanel):
 
         # Button layout
         buttonLayout = QGridLayout()
+        buttonLayout.setContentsMargins(25, 0, 25, 0)
         buttonLayout.addWidget(self.calcButton, 0, 0)
         buttonLayout.addWidget(self.resetButton, 0, 1)
 
         # Window layout
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self.title)
-        mainLayout.addWidget(self.displacementInput)
-        mainLayout.addWidget(self.speedInput)
-        mainLayout.addWidget(self.pressureInput)
+        mainLayout.addLayout(self.inputLayout)
         mainLayout.addWidget(self.output)
         mainLayout.addLayout(buttonLayout)
 

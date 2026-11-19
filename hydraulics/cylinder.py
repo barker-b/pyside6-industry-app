@@ -27,9 +27,9 @@ class Cylinder(SecondPanel):
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet(
             """
-            font-size: 20px;
+            font-size: 30px;
             font-weight: bold;
-            padding: 6px;
+            padding: 15px;
             """
         )
 
@@ -41,34 +41,37 @@ class Cylinder(SecondPanel):
             font-size: 20px;
             """
         )
-
-        # Buttons
-        self.calcButton = ThemedButton()
-        self.resetButton = ThemedButton()
-
-        self.graph = CylinderGraph()
-
         
-        # Button layout
-        buttonLayout = QGridLayout()
-        buttonLayout.addWidget(self.calcButton, 0, 0)
-        buttonLayout.addWidget(self.resetButton, 0, 1)
-        
-        # Main screen layout
-        mainLayout = QVBoxLayout()
-
+        # Inputs
         inputLayout = QVBoxLayout()
-        inputLayout.addWidget(self.title)
+        inputLayout.setContentsMargins(50, 0, 50, 0)
         inputLayout.addWidget(self.boreInput)
         inputLayout.addWidget(self.rodInput)
         inputLayout.addWidget(self.pressureInput)
         inputLayout.addWidget(self.output)
-        inputLayout.addLayout(buttonLayout)
 
+        # Buttons
+        self.calcButton = ThemedButton()
+        self.resetButton = ThemedButton()
+        
+        # Button layout
+        buttonLayout = QGridLayout()
+        buttonLayout.setContentsMargins(25, 0, 25, 0)
+        buttonLayout.addWidget(self.calcButton, 0, 0)
+        buttonLayout.addWidget(self.resetButton, 0, 1)
+
+
+        # Graph
+        self.graph = CylinderGraph()
         graphLayout = QVBoxLayout()
         graphLayout.addWidget(self.graph)
 
-        mainLayout.addLayout(inputLayout, 40)
+        # Main screen layout
+        mainLayout = QVBoxLayout()
+
+        mainLayout.addWidget(self.title, 10)
+        mainLayout.addLayout(inputLayout, 20)
+        mainLayout.addLayout(buttonLayout, 10)
         mainLayout.addLayout(graphLayout, 60)
 
         self.setLayout(mainLayout)

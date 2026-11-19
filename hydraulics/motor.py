@@ -3,6 +3,8 @@ from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, ThemedInput, ThemedButton
 from settings.languages import lang_manager
 from settings.values import MOTOR_VALUES
+from calculator import MotorFormula
+from graphs.motor_graph import MotorGraph
 from PySide6.QtWidgets import (
     QVBoxLayout,
     QLabel,
@@ -10,7 +12,6 @@ from PySide6.QtWidgets import (
     QGridLayout,
 )
 
-from calculator import MotorFormula
 
 class Motor(SecondPanel):
     def __init__(self):
@@ -45,24 +46,37 @@ class Motor(SecondPanel):
                 }
             """)
 
+        # Inputs
+        self.inputLayout = QVBoxLayout()
+        self.inputLayout.setContentsMargins(50, 0, 50, 0)
+        self.inputLayout.addWidget(self.displacementInput)
+        self.inputLayout.addWidget(self.flowInput)
+        self.inputLayout.addWidget(self.pressureInput)
+
 
         # Buttons
         self.calcButton = ThemedButton()
         self.resetButton = ThemedButton()
 
-        #Button Layout
+        # Button Layout
         buttonLayout = QGridLayout()
+        buttonLayout.setContentsMargins(25, 0, 25, 0)
         buttonLayout.addWidget(self.calcButton, 0, 0)
         buttonLayout.addWidget(self.resetButton, 0, 1)
 
+        # Graph
+        self.graph = MotorGraph()
+        graphLayout = QVBoxLayout()
+        graphLayout.addWidget(self.graph)
+
         # Main screen layout
         mainLayout = QVBoxLayout()
+        mainLayout
         mainLayout.addWidget(self.title)
-        mainLayout.addWidget(self.displacementInput)
-        mainLayout.addWidget(self.flowInput)
-        mainLayout.addWidget(self.pressureInput)
+        mainLayout.addLayout(self.inputLayout)
         mainLayout.addWidget(self.output)
         mainLayout.addLayout(buttonLayout)
+        mainLayout.addLayout(graphLayout)
 
         self.setLayout(mainLayout)
 
