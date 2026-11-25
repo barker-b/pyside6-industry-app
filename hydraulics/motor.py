@@ -52,6 +52,7 @@ class Motor(SecondPanel):
         self.inputLayout.addWidget(self.displacementInput)
         self.inputLayout.addWidget(self.flowInput)
         self.inputLayout.addWidget(self.pressureInput)
+        self.inputLayout.addWidget(self.output)
 
 
         # Buttons
@@ -64,6 +65,9 @@ class Motor(SecondPanel):
         buttonLayout.addWidget(self.calcButton, 0, 0)
         buttonLayout.addWidget(self.resetButton, 0, 1)
 
+        # Inputs
+        
+
         # Graph
         self.graph = MotorGraph()
         graphLayout = QVBoxLayout()
@@ -71,12 +75,10 @@ class Motor(SecondPanel):
 
         # Main screen layout
         mainLayout = QVBoxLayout()
-        mainLayout
-        mainLayout.addWidget(self.title)
-        mainLayout.addLayout(self.inputLayout)
-        mainLayout.addWidget(self.output)
-        mainLayout.addLayout(buttonLayout)
-        mainLayout.addLayout(graphLayout)
+        mainLayout.addWidget(self.title, 10)
+        mainLayout.addLayout(self.inputLayout, 20)
+        mainLayout.addLayout(buttonLayout, 10)
+        mainLayout.addLayout(graphLayout, 60)
 
         self.setLayout(mainLayout)
 

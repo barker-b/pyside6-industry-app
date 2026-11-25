@@ -3,6 +3,8 @@ from PySide6.QtCore import Qt
 from widgets.custom_widgets import SecondPanel, ThemedInput, ThemedButton
 from settings.languages import lang_manager
 from settings.values import PUMP_VALUES
+from calculator import PumpFormula
+from graphs.pump_graph import PumpGraph
 from PySide6.QtWidgets import (
     QVBoxLayout,
     QLabel,
@@ -10,7 +12,6 @@ from PySide6.QtWidgets import (
     QFrame
 )
 
-from calculator import PumpFormula
 
 class Pump(SecondPanel):
     def __init__(self):
@@ -63,12 +64,18 @@ class Pump(SecondPanel):
         buttonLayout.addWidget(self.calcButton, 0, 0)
         buttonLayout.addWidget(self.resetButton, 0, 1)
 
+        # Graph
+        self.graph = PumpGraph()
+        graphLayout = QVBoxLayout()
+        graphLayout.addWidget(self.graph)
+
         # Window layout
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self.title)
         mainLayout.addLayout(self.inputLayout)
         mainLayout.addWidget(self.output)
         mainLayout.addLayout(buttonLayout)
+        mainLayout.addLayout(graphLayout)
 
         self.setLayout(mainLayout)
 

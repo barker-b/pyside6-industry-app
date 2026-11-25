@@ -46,7 +46,7 @@ BasePanel {
 SecondPanel {
     background-color: #FFFFFF;
     border: .5px solid #2A2A2A;
-    border-radius: 12px;
+    border-radius: 6px;
     }
 ThemedButton { background-color: #F3F3F3;
 }

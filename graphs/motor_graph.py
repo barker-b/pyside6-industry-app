@@ -11,4 +11,9 @@ class MotorGraph(SecondPanel):
         super().__init__()
 
         self.mot_graph = pg.PlotWidget()
-        
+        self.mot_graph.setTitle("Motor")
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.mot_graph)
+
+        self.setLayout(layout)
